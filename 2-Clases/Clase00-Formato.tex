@@ -1,0 +1,172 @@
+\documentclass[a4,11pt]{aleph-notas}
+
+% -- Paquetes adicionales
+\usepackage{enumitem}
+\usepackage{aleph-comandos}
+
+% -- Datos
+\institucion{Facultad de Ciencias Exactas, Naturales y Ambientales}
+\carrera{Catálogo STEM}
+\asignatura{Métodos Numéricos}
+\tema{Clase 00: Introducción a los Métodos Numéricos}
+\autor{Mario Cueva - Andrés Merino}
+\fecha{Periodo 2026-1}
+
+\logouno[0.18\textwidth]{Logos/logoPUCE_04_ac}
+\definecolor{colortext}{HTML}{1957d1}
+\definecolor{colordef}{HTML}{1957d1}
+\fuente{montserrat}
+
+
+\begin{document}
+
+\encabezado
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Resultado de Aprendizaje}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{RdA de la asignatura:}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{RdA 1:} Comprender los conceptos fundamentales de los Métodos Numéricos, incluyendo la solución de ecuaciones y sistemas, diferenciación e integración numérica y la optimización numérica, destacando su importancia en el análisis y resolución de problemas matemáticos.
+    \item \textbf{RdA 2:} Computar cálculos relacionadas con los Métodos Numéricos, incluyendo la solución de ecuaciones y sistemas, la diferenciación e integración numéricas, y la optimización numérica, para generar aproximaciones a soluciones.
+    \item \textbf{RdA 3:} Aplicar los conceptos y técnicas de los Métodos Numéricos en la resolución de problemas reales, incluyendo la solución de ecuaciones y sistemas, la diferenciación e integración numéricas, y la optimización numérica, demostrando habilidad para abordar desafíos prácticos y situaciones del mundo real.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{RdA de la actividad:}
+\begin{itemize}[leftmargin=*]
+    \item Reconocer el propósito de los métodos numéricos como herramientas para obtener aproximaciones útiles cuando no se dispone de una solución exacta simple.
+    \item Identificar los principales bloques temáticos del curso y su relación con problemas aplicados.
+    \item Establecer acuerdos de trabajo para el uso de recursos, actividades, evaluaciones y herramientas computacionales durante el periodo.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Introducción}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph{Pregunta inicial:} 
+¿Qué haríamos si un problema importante no se puede resolver con una fórmula exacta, pero necesitamos una respuesta confiable hoy?
+
+\paragraph{Ejemplos de partida:}
+\begin{itemize}[leftmargin=*]
+    \item Estimar la raíz cuadrada de $2$ cuando solo se necesitan cuatro decimales.
+    \item Calcular el área bajo una curva cuando la antiderivada no es sencilla.
+    \item Predecir la temperatura de un día usando datos medidos en horas específicas.
+    \item Encontrar el precio que maximiza la ganancia de un producto con restricciones reales.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Desarrollo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Actividad 1: ¿Para qué sirven los métodos numéricos?}
+
+La actividad presenta el sentido del curso mediante una conversación guiada y ejemplos aplicados.
+
+\paragraph{¿Cómo lo haremos?}  
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Diagnóstico inicial:} cada estudiante escribe un problema de su carrera donde una respuesta aproximada pueda ser útil.
+    \item \textbf{Discusión guiada:} se clasifican los problemas propuestos según involucren ecuaciones, datos, cambios, acumulación u optimización.
+    \item \textbf{Clase interactiva:} se explica la diferencia entre solución exacta, aproximación, error y tolerancia.
+    \item \textbf{Síntesis:} se construye una definición breve de método numérico a partir de las respuestas del grupo.
+\end{itemize}
+
+\paragraph{Ejemplo guiado:}
+Se desea estimar $\sqrt{2}$ para diseñar una pieza donde basta una precisión de dos decimales.
+\[
+    \sqrt{2}=1.41421356\ldots \approx 1.41.
+\]
+La aproximación $1.41$ no es exacta, pero puede ser adecuada si la tolerancia del problema permite errores menores que $0.01$.
+
+\paragraph{Actividad corta:}
+\begin{enumerate}[leftmargin=*]
+    \item Escriba una cantidad que haya medido o estimado recientemente.
+    \item Indique si esa cantidad era exacta o aproximada.
+    \item Proponga una tolerancia razonable para esa cantidad.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Actividad 2: Aproximación, error y tolerancia}
+
+La actividad muestra que una aproximación debe juzgarse según el tamaño del error y el contexto del problema.
+
+\paragraph{¿Cómo lo haremos?}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Ejemplo numérico:} se compara el valor verdadero $x=3.1416$ con la aproximación $\widehat{x}=3.14$.
+    \item \textbf{Cálculo guiado:} se calcula el error absoluto $E_a=|x-\widehat{x}|=0.0016$.
+    \item \textbf{Interpretación:} se analiza si el error es aceptable para un cálculo escolar, una medición de laboratorio o una aplicación médica.
+    \item \textbf{Trabajo individual:} cada estudiante resuelve un cálculo de error con una aproximación distinta.
+\end{itemize}
+
+\paragraph{Ejemplos para resolver en clase:}
+\begin{enumerate}[leftmargin=*]
+    \item Si el valor verdadero es $x=10$ y la aproximación es $\widehat{x}=9.8$, calcule el error absoluto.
+    \item Si el valor verdadero es $x=0.05$ y la aproximación es $\widehat{x}=0.04$, calcule el error absoluto y discuta si es pequeño.
+    \item Si dos aproximaciones consecutivas son $x_1=1.41$ y $x_2=1.414$, calcule $|x_2-x_1|$.
+\end{enumerate}
+
+\paragraph{Pregunta para discusión:}
+¿Puede un mismo error absoluto ser aceptable en un problema y peligroso en otro?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Actividad 3: Mapa del curso mediante mini-casos}
+
+La actividad conecta cada unidad del curso con un problema aplicado que se resolverá con aproximaciones.
+
+\paragraph{¿Cómo lo haremos?}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Representación de números:} se analiza por qué una computadora no siempre representa exactamente los decimales.
+    \item \textbf{Resolución de ecuaciones:} se plantea encontrar la temperatura donde dos modelos físicos coinciden.
+    \item \textbf{Sistemas de ecuaciones:} se modela una mezcla de soluciones con concentraciones diferentes.
+    \item \textbf{Interpolación:} se estima un dato faltante usando mediciones cercanas.
+    \item \textbf{Diferenciación e integración numérica:} se aproxima velocidad, acumulación o área a partir de datos discretos.
+    \item \textbf{Optimización:} se busca el valor que maximiza una ganancia o minimiza un costo.
+\end{itemize}
+
+\paragraph{Actividad en grupos:}
+Cada grupo elige uno de los mini-casos, identifica la pregunta matemática principal y propone qué tipo de resultado aproximado esperaría obtener.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Actividad 4: Primer contacto computacional}
+
+La actividad introduce el uso de calculadora o computador para observar el efecto del redondeo.
+
+\paragraph{¿Cómo lo haremos?}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Exploración:} se calcula $1/3$, $2/3$ y $1/3+2/3$ en una calculadora o computador.
+    \item \textbf{Observación:} se compara el resultado mostrado con el valor exacto esperado.
+    \item \textbf{Reflexión:} se discute por qué la cantidad de dígitos disponibles afecta la respuesta.
+    \item \textbf{Registro:} cada estudiante anota una conclusión sobre precisión y redondeo.
+\end{itemize}
+
+\paragraph{Verificación de aprendizaje:}
+\begin{enumerate}[leftmargin=*]
+    \item Explique con una oración qué estudian los métodos numéricos.
+    \item Mencione dos temas del curso que le parezcan útiles para su carrera.
+    \item Describa una situación real donde una aproximación sea más práctica que una solución exacta.
+    \item Explique por qué una tolerancia debe elegirse antes de aceptar una aproximación.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Cierre}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\paragraph{Tarea:}
+Leer el \href{https://fcena-puce.github.io/FCENA-PUCE/MetodosNumericos-05-N0062/2-Resumenes/Resumen01.pdf}{Resumen01.pdf} e identificar un ejemplo cotidiano donde aparezcan errores de redondeo o medición.
+
+\paragraph{Pregunta de investigación:}  
+\begin{enumerate}[leftmargin=*]
+    \item ¿Qué áreas profesionales dependen de aproximaciones numéricas para tomar decisiones?
+    \item ¿Qué riesgos pueden aparecer cuando se ignora el error en un cálculo numérico?
+    \item ¿Cómo ayuda la programación a implementar métodos numéricos de forma eficiente?
+\end{enumerate}
+    
+\paragraph{Para la próxima clase:}  
+Traer una calculadora o computador y repasar operaciones básicas con potencias, notación científica y porcentajes.
+
+\end{document} 

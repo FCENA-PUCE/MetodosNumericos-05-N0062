@@ -1,0 +1,162 @@
+\documentclass[a4,11pt]{aleph-notas}
+% Se puede ver la documentación aquí: 
+% https://github.com/alephsub0/LaTeX_aleph-notas
+
+% -- Paquetes adicionales 
+\usepackage{enumitem}
+\usepackage{aleph-comandos}
+\usepackage{booktabs}
+\hypersetup{
+    urlcolor=blue,
+    linkcolor=blue,
+}
+
+% -- Datos 
+\institucion{Facultad de Ciencias Exactas, Naturales y Ambientale}
+\carrera{Catálogo STEM}
+\asignatura{Métodos Numéricos}
+\tema{Reto no. 2: análisis de componentes principales}
+\autor{Mario Cueva - Andrés Merino}
+\fecha{Periodo 2025-1}
+
+
+\logouno[0.18\textwidth]{Logos/logoPUCE_04_ac}
+\definecolor{colortext}{HTML}{1957d1}
+\definecolor{colordef}{HTML}{1957d1}
+\fuente{montserrat}
+
+
+% -- Comandos adicionales
+\setlist[enumerate]{label=\roman*.}
+
+
+
+\begin{document}
+
+\encabezado
+
+\section{Indicaciones}
+\begin{itemize}[leftmargin=*]
+\item 
+    En esta actividad se evalúa si el estudiante \textit{Criterio 3.2:} Aplica los conceptos de transformaciones lineales al campo de la Ingeniería y \textit{Criterio 3.3:} Aplica los conceptos de la Geometría Analítica al campo de la Ingeniería.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Descripción}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+El Análisis de Componentes Principales (ACP) es una técnica esencial en el procesamiento de datos de alta dimensión, tanto en Ingeniería Civil como en Sistemas. En el primer caso, puede emplearse para reducir y analizar grandes volúmenes de información estructural, ambiental o geotécnica; en el segundo, permite optimizar el rendimiento de algoritmos y visualizar datos complejos en ciencia de datos e inteligencia artificial. Basado en transformaciones lineales, el ACP busca nuevas variables ortogonales (componentes principales) que concentran la mayor variabilidad posible del sistema, simplificando la información sin perder contenido relevante.
+
+Este reto tiene como objetivo comprender, aplicar y comunicar el ACP mediante un enfoque integral que conecta teoría, implementación computacional y visualización.
+
+\subsection*{Pregunta esencial}
+\begin{itemize}[leftmargin=*]
+\item ¿Cómo nos ayuda el Análisis de Componentes Principales a simplificar grandes volúmenes de datos sin perder información clave?
+\end{itemize}
+
+\subsection*{Reto}
+
+Tu desafío será triple: 
+\begin{enumerate}[leftmargin=*]
+\item Investigar los fundamentos matemáticos del ACP.
+\item Crear un videotutorial que explique de forma clara y visual el proceso del ACP.
+\item Aplicar el ACP a un conjunto real de datos para extraer conclusiones relevantes en contextos de ingeniería o sistemas.
+\end{enumerate}
+
+Deberás entregar:
+\begin{itemize}[leftmargin=*]
+\item Un videotutorial (máx. 5 minutos) explicando el ACP, su motivación, procedimiento y un ejemplo visual.
+\item Un documento en PDF que incluya tanto la explicación teórica como la aplicación práctica.
+\item Un notebook (Google Colab) que muestre el proceso computacional de ACP con visualizaciones.
+\end{itemize}
+
+\subsection*{Preguntas guía}
+\begin{itemize}[leftmargin=*]
+\item ¿Qué es el ACP y por qué se usa en análisis de datos multivariados?
+\item ¿Cómo se relaciona el ACP con conceptos como base, dimensión, vectores propios y proyecciones ortogonales?
+\item ¿Cómo se realiza el ACP paso a paso y cómo se interpreta?
+\item ¿Qué ventajas tiene el ACP frente a otras técnicas de reducción de datos?
+\item ¿Cómo se visualizan los resultados del ACP y cómo se interpreta cada componente?
+\end{itemize}
+
+\subsection*{Actividades guía}
+\begin{enumerate}[leftmargin=*, label={{\arabic*.}}]
+\item Investigar el ACP y su conexión con álgebra lineal.
+\item Crear un guion breve para un videotutorial educativo.
+\item Descargar el conjunto de datos \texttt{2021 Cars Raw.csv} desde Kaggle.
+\item Aplicar el ACP sobre las variables cuantitativas usando \texttt{scikit-learn} y generar visualizaciones para 2 y 3 componentes.
+\item Verificar manualmente la proyección de al menos un punto sobre la base generada por el ACP.
+\item Elaborar un documento con explicación teórica, aplicación práctica y reflexión.
+\end{enumerate}
+
+\subsection*{Recursos}
+\begin{itemize}[leftmargin=*]
+\item \href{https://youtu.be/FgakZw6K1QQ}{StatQuest: Principal Component Analysis}.
+\item \href{https://www.kaggle.com/datasets/konradb/real-world-vehicle-emissions}{Kaggle dataset: 2021 Cars Raw.csv}.
+\item \href{https://catalogobiblioteca.puce.edu.ec/cgi-bin/koha/opac-detail.pl?biblionumber=86081}{Larson – Fundamentos de Álgebra Lineal}.
+\item \href{https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html}{Scikit-learn: PCA}.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Producto}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Videotutorial explicativo}
+
+Un video de máximo 5 minutos (formato libre) donde expliques:
+\begin{itemize}[leftmargin=*]
+\item Qué es el ACP y para qué sirve.
+\item Cómo se lleva a cabo el proceso (en forma intuitiva y formal).
+\item Qué representan los componentes principales.
+\item Ejemplo práctico con visualización.
+\end{itemize}
+
+\subsection{Informe académico}
+
+Un documento en PDF que contenga:
+
+\begin{enumerate}[leftmargin=*, label={\textbf{\arabic*.}}]
+\item \textbf{Fundamentos teóricos del ACP:} 
+Relación con bases, dimensión, vectores propios, proyección ortogonal y transformaciones lineales.
+\item \textbf{Minitutorial:} 
+Enlace al video explicativo.
+\item \textbf{Aplicación práctica:} 
+Descripción del dataset, análisis realizado, gráficos de 2 y 3 componentes, explicación de resultados y verificación manual.
+\item \textbf{Notebook (Colab):} 
+Enlace al notebook con código ejecutable.
+\item \textbf{Reflexión final:} 
+Qué se aprendió, cuándo usar ACP y su utilidad en ingeniería y sistemas.
+\item \textbf{Bibliografía:} 
+Fuentes en formato APA.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Rúbrica de evaluación}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{1. Video Tutorial (15 puntos)}
+\begin{itemize}[leftmargin=*]
+    \item {Claridad conceptual del ACP} (5 pts): 
+    Explica adecuadamente qué es el ACP y su procedimiento.
+    \item {Presentación visual y didáctica} (5 pts): 
+    Uso de ejemplos visuales, voz clara, estructura lógica.
+    \item {Originalidad y calidad técnica} (5 pts): 
+    Video cuidado, elementos gráficos o narrativos que apoyan el aprendizaje.
+\end{itemize}
+
+\subsection*{2. Informe con aplicación (30 puntos)}
+
+Cada uno de los tres aspectos clave (teoría, aplicación y reflexión) se evalúa de manera integral:
+\begin{itemize}[leftmargin=*]
+    \item {Fundamentación teórica clara y completa} (10 pts)
+    \item {Aplicación práctica y visualización con notebook} (10 pts)
+    \item {Reflexión y análisis final de calidad} (10 pts)
+\end{itemize}
+
+\subsection*{3. Excelencia (5 puntos)}
+Otorgado si se alcanza el puntaje máximo en las tres secciones anteriores, por creatividad, originalidad y presentación sobresaliente.
+
+
+
+\end{document}

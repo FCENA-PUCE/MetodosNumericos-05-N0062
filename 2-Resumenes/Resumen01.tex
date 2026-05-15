@@ -1,0 +1,225 @@
+\documentclass[a4,11pt]{aleph-notas}
+% Se puede ver la documentación aquí:
+% https://github.com/alephsub0/LaTeX_aleph-notas
+
+% -- Paquetes adicionales
+\usepackage{enumitem}
+\usepackage{aleph-comandos}
+\usepackage{booktabs}
+
+
+% -- Datos
+\institucion{Facultad de Ciencias Exactas, Naturales y Ambientales}
+\carrera{Catálogo STEM}
+\asignatura{Métodos Numéricos}
+\tema{Resumen no. 1: Fundamentos y método de bisección}
+\autor{Mario Cueva - Andrés Merino}
+\fecha{Periodo 2026-1}
+
+\logouno[0.18\textwidth]{Logos/logoPUCE_04_ac}
+\definecolor{colortext}{HTML}{1957d1}
+\definecolor{colordef}{HTML}{1957d1}
+\fuente{montserrat}
+
+
+% -- Comandos adicionales
+\setlist[enumerate]{label=\roman*.}
+
+
+\begin{document}
+
+\encabezado
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Cifras significativas}
+
+\begin{defi}
+    Las \textbf{cifras significativas} de un número son los dígitos que contribuyen a su precisión. Estas incluyen todos los dígitos distintos de cero, los ceros entre dígitos significativos y los ceros finales en números decimales.
+\end{defi}
+
+\begin{ejem}
+    El número 0.004560 tiene cuatro cifras significativas: 4, 5, 6 y el cero final.
+\end{ejem}
+
+\begin{ejem}
+    El número 1000 tiene una cifra significativa si se escribe sin notación científica, pero si se escribe como $1.000 \times 10^3$, entonces tiene cuatro cifras significativas.
+\end{ejem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sistema numérico}
+
+Históricamente, se han desarrollado diversos sistemas numéricos para representar cantidades. Han existido sistemas como el romano, que entra en una categoría de sistemas no posicionales, y sistemas como el decimal, binario y hexadecimal, que son sistemas posicionales.
+
+La característica principal de un sistema posicional es que el valor de cada dígito depende de su posición en el número. Así, en el número 343, el dígito 3 en la posición de las centenas representa 300, mientras que el dígito 3 en la posición de las unidades representa solo 3. Esto lo podemos expresar matemáticamente como:
+\[
+343 = 3 \times 100 + 4 \times 10 + 3 \times 1 = 3 \times 10^2 + 4 \times 10^1 + 3 \times 10^0.
+\]
+En el sistema decimal, la base es 10 y el conjunto de símbolos que pertenece a este sistema es $D = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$.
+
+En caso de ocupara otra base, como el binario (base 2), el conjunto de símbolos sería $D = \{0, 1\}$ y el número 1011 en binario se puede convertir a decimal de la siguiente manera:
+\[
+1011_2 = 1 \times 2^3 + 0 \times 2^2 + 1 \times 2^1 + 1 \times 2^0 = 8 + 0 + 2 + 1 = 11_{10}.
+\]
+
+\begin{defi}[Sistema numérico]
+    Dado una base $b$ y un conjunto de dígitos $D = \{0, 1, \ldots, b-1\}$, un número entero en el sistema numérico se representa como una secuencia de dígitos de $D$.
+    \[
+    N = d_n d_{n-1} \ldots d_1 d_0 \ldots = \sum_{i=0}^{n} d_i b^i
+    \]
+
+    Para números decimales, se pueden incluir dígitos después de un punto decimal, representando fracciones de la base:
+    \[
+    N = d_n d_{n-1} \ldots d_1 d_0 . d_{-1} d_{-2} \ldots = \sum_{i=-\infty}^{n} d_i b^i.
+    \]
+\end{defi}
+
+% Representación de enteros en computadoras
+
+En una computadora, se utiliza el sistema binario. Para enteros, se puede utilizar $n$ bits, donde el primer bit se reserva para el signo (0 para positivo y 1 para negativo) y los $n-1$ bits restantes se utilizan para representar el valor absoluto del número. Esto se conoce como representación de enteros con signo.
+
+\begin{defi}[Representación de enteros con signo]
+    En una representación de enteros con signo utilizando $n$ bits, el rango de números que se pueden representar es de $-2^{n-1}$ a $2^{n-1}-1$.
+\end{defi}
+
+\begin{advertencia}
+    Para $n=16$, el rango de enteros con signo es de $-32\,768$ a $32\,767$. Para $n=32$, el rango es de $-2\,147\,483\,648$ a $214\,483\,647$. Para $n=64$, el rango es de $-9\,223\,372\,036\,854\,775\,808$ a $9\,223\,372\,036\,854\,775\,807$.
+\end{advertencia}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Definición de errores}
+
+\begin{defi}[Error]
+    El \textbf{error} es la diferencia entre un valor verdadero o exacto y un valor aproximado. En métodos numéricos, los errores aparecen porque los cálculos suelen trabajar con aproximaciones y con una cantidad finita de dígitos.
+\end{defi}
+
+\begin{defi}[Error absoluto]
+    Sea $x$ el valor verdadero y $\widehat{x}$ una aproximación de $x$. El \textbf{error absoluto} se define como
+    \[
+        E_a = |x-\widehat{x}|.
+    \]
+    Este error mide la distancia entre el valor exacto y el valor aproximado.
+\end{defi}
+
+\begin{defi}[Error relativo]
+    Sea $x \neq 0$ el valor verdadero y $\widehat{x}$ una aproximación de $x$. El \textbf{error relativo} se define como
+    \[
+        E_r = \frac{|x-\widehat{x}|}{|x|}.
+    \]
+    Si se desea expresarlo como porcentaje, se utiliza
+    \[
+        E_r\% = \frac{|x-\widehat{x}|}{|x|}\times 100.
+    \]
+\end{defi}
+
+\begin{ejem}
+    Si el valor verdadero es $x=3.1416$ y la aproximación es $\widehat{x}=3.14$, entonces
+    \[
+        E_a = |3.1416-3.14| = 0.0016
+    \]
+    y
+    \[
+        E_r\% = \frac{0.0016}{3.1416}\times 100 \approx 0.0509\%.
+    \]
+\end{ejem}
+
+\begin{defi}[Error aproximado]
+    Cuando no se conoce el valor verdadero, se puede estimar el error comparando dos aproximaciones consecutivas. Si $x_i$ es la aproximación actual y $x_{i-1}$ la aproximación anterior, el \textbf{error aproximado} se define como
+    \[
+        E_{\text{aprox}} = |x_i-x_{i-1}|.
+    \]
+    También se puede expresar de forma relativa como
+    \[
+        E_{\text{aprox},r}\% = \frac{|x_i-x_{i-1}|}{|x_i|}\times 100,
+    \]
+    siempre que $x_i \neq 0$.
+\end{defi}
+
+\begin{advertencia}
+    Un error absoluto pequeño no siempre significa que la aproximación sea buena. Por ejemplo, un error de $0.01$ puede ser pequeño si se aproxima una cantidad cercana a $1000$, pero puede ser grande si se aproxima una cantidad cercana a $0.02$.
+\end{advertencia}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resolución de ecuaciones: Método de la bisección}
+
+\begin{defi}[Raíz de una ecuación]
+    Dada una función $f$, una \textbf{raíz} o \textbf{cero} de la ecuación $f(x)=0$ es un valor $r$ tal que
+    \[
+        f(r)=0.
+    \]
+    Resolver una ecuación no lineal consiste en encontrar uno o varios valores de $r$ que satisfagan esta condición.
+\end{defi}
+
+\begin{teo}[Cambio de signo]
+    Si $f$ es continua en el intervalo $[a,b]$ y se cumple que
+    \[
+        f(a)f(b)<0,
+    \]
+    entonces existe al menos una raíz de $f(x)=0$ en el intervalo $(a,b)$.
+\end{teo}
+
+\begin{defi}[Método de la bisección]
+    El \textbf{método de la bisección} es un método iterativo para aproximar una raíz de una función continua. Parte de un intervalo $[a,b]$ donde existe un cambio de signo y lo divide en dos subintervalos mediante el punto medio
+    \[
+        m = \frac{a+b}{2}.
+    \]
+    Luego se conserva el subintervalo donde se mantiene el cambio de signo.
+\end{defi}
+
+\begin{advertencia}
+    Para aplicar el método de la bisección se necesita que la función sea continua en $[a,b]$ y que $f(a)f(b)<0$. Si no hay cambio de signo, el método no garantiza la existencia de una raíz en el intervalo.
+\end{advertencia}
+
+\begin{defi}[Iteración del método de la bisección]
+    En cada iteración se calcula el punto medio
+    \[
+        m_i = \frac{a_i+b_i}{2}.
+    \]
+    Si $f(a_i)f(m_i)<0$, la raíz se encuentra en $[a_i,m_i]$ y se toma
+    \[
+        a_{i+1}=a_i, \qquad b_{i+1}=m_i.
+    \]
+    Si $f(m_i)f(b_i)<0$, la raíz se encuentra en $[m_i,b_i]$ y se toma
+    \[
+        a_{i+1}=m_i, \qquad b_{i+1}=b_i.
+    \]
+    Si $f(m_i)=0$, entonces $m_i$ es una raíz exacta.
+\end{defi}
+
+\begin{defi}[Criterios de parada]
+    El método se detiene cuando la aproximación cumple una tolerancia establecida. Algunos criterios comunes son:
+    \begin{enumerate}
+        \item $|f(m_i)|<\varepsilon$,
+        \item $|m_i-m_{i-1}|<\varepsilon$,
+        \item $\dfrac{b_i-a_i}{2}<\varepsilon$,
+        \item alcanzar un número máximo de iteraciones.
+    \end{enumerate}
+    El valor $\varepsilon>0$ representa la tolerancia aceptada para el error.
+\end{defi}
+
+\begin{ejem}
+    Consideremos la ecuación
+    \[
+        f(x)=x^2-2=0.
+    \]
+    En el intervalo $[1,2]$ se tiene
+    \[
+        f(1)=-1, \qquad f(2)=2.
+    \]
+    Como $f(1)f(2)<0$, existe una raíz en $(1,2)$. El primer punto medio es
+    \[
+        m_1=\frac{1+2}{2}=1.5.
+    \]
+    Como $f(1.5)=0.25$, se cumple que $f(1)f(1.5)<0$, por lo que la raíz se encuentra en $[1,1.5]$. El siguiente punto medio es
+    \[
+        m_2=\frac{1+1.5}{2}=1.25.
+    \]
+    Repitiendo este proceso, los puntos medios se acercan a la raíz $\sqrt{2}\approx 1.4142$.
+\end{ejem}
+
+\begin{advertencia}
+    La bisección es un método seguro cuando se cumplen sus condiciones, pero puede ser lento porque reduce el intervalo a la mitad en cada iteración.
+\end{advertencia}
+
+\end{document}
