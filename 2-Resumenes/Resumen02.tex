@@ -36,37 +36,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resolución de ecuaciones: Método de la bisección}
 
-\begin{defi}[Método de la bisección]
-    El \textbf{método de la bisección} es un método cerrado para aproximar una raíz de una ecuación $f(x)=0$. Parte de un intervalo $[a,b]$ donde la función es continua y existe un cambio de signo, es decir,
-    \[
-        f(a)f(b)<0.
-    \]
-    En cada iteración se calcula el punto medio
-    \[
-        m=\frac{a+b}{2}
-    \]
-    y se conserva el subintervalo donde se mantiene el cambio de signo.
-\end{defi}
-
-\begin{advertencia}
-    La condición $f(a)f(b)<0$ garantiza la existencia de al menos una raíz en $(a,b)$ cuando $f$ es continua. Si no se cumple esta condición, el método de la bisección no puede aplicarse directamente.
-\end{advertencia}
-
-\begin{defi}[Iteración del método de la bisección]
-    Sea $[a_i,b_i]$ el intervalo de trabajo en la iteración $i$. Se calcula
-    \[
-        m_i=\frac{a_i+b_i}{2}.
-    \]
-    Luego se actualiza el intervalo de la siguiente manera:
-    \[
-        \begin{array}{ll}
-        \text{si } f(a_i)f(m_i)<0, & a_{i+1}=a_i,\quad b_{i+1}=m_i,\\[1mm]
-        \text{si } f(m_i)f(b_i)<0, & a_{i+1}=m_i,\quad b_{i+1}=b_i.
-        \end{array}
-    \]
-    Si $f(m_i)=0$, entonces $m_i$ es una raíz exacta.
-\end{defi}
-
 \begin{defi}[Cota del error en bisección]
     Después de $n$ iteraciones, la longitud del intervalo se ha reducido a
     \[
@@ -105,34 +74,6 @@
     }
 \end{function}
 \end{pscodigo}
-
-\begin{ejem}
-    Consideremos
-    \[
-        f(x)=x^3-x-2.
-    \]
-    En el intervalo $[1,2]$ se tiene
-    \[
-        f(1)=-2,\qquad f(2)=4.
-    \]
-    Como $f(1)f(2)<0$, existe al menos una raíz en $(1,2)$. El primer punto medio es
-    \[
-        m_1=\frac{1+2}{2}=1.5.
-    \]
-    Al evaluar,
-    \[
-        f(1.5)=1.5^3-1.5-2=-0.125.
-    \]
-    Como $f(1.5)f(2)<0$, la raíz se encuentra en $[1.5,2]$. El siguiente punto medio es
-    \[
-        m_2=\frac{1.5+2}{2}=1.75.
-    \]
-    Al repetir este procedimiento, los intervalos se reducen y los puntos medios se acercan a la raíz.
-\end{ejem}
-
-\begin{advertencia}
-    La bisección es un método robusto porque siempre reduce el intervalo cuando se cumplen sus condiciones. Sin embargo, puede requerir muchas iteraciones para alcanzar una tolerancia pequeña.
-\end{advertencia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resolución de ecuaciones: Método de falsa posición}
@@ -350,13 +291,13 @@ donde $x_0$ es una aproximación inicial.
 
 \subsection{Condiciones de convergencia}
 
-\begin{defi}[Condición suficiente de convergencia]
+\begin{teo}[Condición suficiente de convergencia]
     Sea $g$ una función derivable en un intervalo $I$ y supongamos que $g(x)\in I$ para todo $x\in I$. Si existe una constante $k<1$ tal que
     \[
         |g'(x)|\leq k
     \]
     para todo $x\in I$, entonces el método de punto fijo converge hacia un punto fijo de $g$ en $I$.
-\end{defi}
+\end{teo}
 
 En particular, cerca de un punto fijo $r$, si
 \[
@@ -372,15 +313,6 @@ la iteración tiende a alejarse del punto fijo.
     La condición $|g'(r)|<1$ explica por qué dos transformaciones equivalentes de una misma ecuación pueden comportarse de manera muy distinta.
 \end{advertencia}
 
-\subsection{Interpretación gráfica}
-
-Gráficamente, el método de punto fijo busca la intersección entre las curvas
-\[
-    y=g(x)
-    \qquad \text{y} \qquad
-    y=x.
-\]
-El proceso iterativo puede representarse con un diagrama de escalera: desde $x_i$ se sube o baja hasta la curva $y=g(x)$, y luego se avanza horizontalmente hasta la recta $y=x$ para obtener el siguiente valor.
 
 \subsection{Criterios de parada}
 
@@ -464,14 +396,6 @@ Para aplicar Newton-Raphson se requiere:
     \item que $f'(x_i)\neq 0$ durante las iteraciones.
 \end{enumerate}
 
-\subsection{Convergencia del método}
-
-Cuando $x_0$ está suficientemente cerca de una raíz simple $r$, y $f'(r)\neq 0$, el método de Newton-Raphson suele converger rápidamente. En condiciones favorables, su convergencia es \textbf{cuadrática}, lo que significa que el error se reduce aproximadamente como el cuadrado del error anterior.
-
-\[
-    E_{i+1}\approx C E_i^2.
-\]
-
 \subsection{Posibles fallos del método}
 
 \begin{advertencia}
@@ -548,13 +472,6 @@ El método de la secante se puede interpretar como una variante de Newton-Raphso
 
 El método requiere dos aproximaciones iniciales $x_0$ y $x_1$. A diferencia de bisección y falsa posición, no es indispensable que exista cambio de signo entre ellos, aunque elegir valores cercanos a la raíz mejora la posibilidad de convergencia.
 
-\subsection{Comparación con Newton-Raphson}
-
-Newton-Raphson usa la derivada exacta $f'(x_i)$, mientras que secante usa la pendiente aproximada
-\[
-    \frac{f(x_i)-f(x_{i-1})}{x_i-x_{i-1}}.
-\]
-Por eso, secante puede ser útil cuando la derivada es difícil de calcular o costosa de evaluar.
 
 \subsection{Ventajas y limitaciones}
 
