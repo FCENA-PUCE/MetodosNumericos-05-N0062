@@ -1,5 +1,5 @@
-% \documentclass[11pt,respuestas,a4]{aleph-examen}
-\documentclass[11pt,a4]{aleph-examen}
+ \documentclass[11pt,respuestas,a4]{aleph-examen}
+%\documentclass[11pt,a4]{aleph-examen}
 % Se puede ver la documentación aquí: 
 % https://github.com/alephsub0/LaTeX_aleph-examen
 
@@ -28,15 +28,12 @@
 \encabezado
 
 \section*{Indicaciones}
-\begin{itemize}[leftmargin=*]
-\item 
-    En esta actividad se evalúa si el estudiante \textit{(Criterio 2.1) Emplea modelos de aprendizaje no supervisado, realizando un análisis crítico de su rendimiento y aplicabilidad en diferentes.} 
-\item
-    Se encuentra prohibido el uso de cualquier fuente de información durante todo el examen.
-\item
-    En caso de considerar que existe un error en la pregunta o que esta se encuentra mal planteada, se debe indicar cuál es el error y justificarlo.
-\item
-    Todas las soluciones deben estar correctamente redactadas y explicadas.
+\begin{itemize}
+    \item El examen es \textbf{individual}.
+    \item Se permite únicamente el uso de calculadora científica.
+    \item Justifique todos los procedimientos. Las respuestas sin desarrollo tendrán puntaje parcial limitado.
+    \item Redondee los resultados a \textbf{cuatro cifras decimales}, salvo que se indique lo contrario.
+    \item En los métodos iterativos, presente las iteraciones en tablas ordenadas.
 \end{itemize}
 
 \section*{Ejercicios}
@@ -46,12 +43,806 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% ---------------- PARTE I ----------------
+
 \item
-    Pregunta
+Determine el número de cifras significativas de cada cantidad: \puntaje{5}
+\begin{multicols}{2}
+    \begin{enumerate}[label=\alph*)]
+        \item $0.0045060$
+        \item $300.040$
+        \item $5.020\times 10^{-3}$
+        \item $7800$
+        \item $7.800\times 10^3$
+    \end{enumerate}
+    \end{multicols}
 
 \begin{respuesta}
-    Solución
+\begin{enumerate}[label=\alph*)]
+    \item $0.0045060$ tiene \textbf{5 cifras significativas}: $4,5,0,6,0$. Los ceros iniciales no cuentan, pero el cero final después del decimal sí cuenta.
+    
+    \item $300.040$ tiene \textbf{6 cifras significativas}: $3,0,0,0,4,0$. Al estar escrito con punto decimal, los ceros indicados son significativos.
+    
+    \item $5.020\times 10^{-3}$ tiene \textbf{4 cifras significativas}: $5,0,2,0$.
+    
+    \item $7800$ tiene \textbf{2 cifras significativas}, si no se especifica punto decimal ni notación científica. Las cifras significativas claras son $7$ y $8$.
+    
+    \item $7.800\times 10^3$ tiene \textbf{4 cifras significativas}: $7,8,0,0$.
+\end{enumerate}
 \end{respuesta}
+
+
+\item
+El valor verdadero de una cantidad es  \puntaje{6}
+\[
+x=3.141592,
+\]
+mientras que una aproximación obtenida por un estudiante es
+\[
+\hat{x}=3.14.
+\]
+Calcule el error absoluto, el error relativo y el error relativo porcentual.
+
+\begin{respuesta}
+El error absoluto se calcula mediante:
+\[
+E_a=|x-\hat{x}|.
+\]
+
+Entonces:
+\[
+E_a=|3.141592-3.14|=0.001592.
+\]
+
+El error relativo es:
+\[
+E_r=\frac{|x-\hat{x}|}{|x|}.
+\]
+
+Por tanto:
+\[
+E_r=\frac{0.001592}{3.141592}=0.0005067.
+\]
+
+El error relativo porcentual es:
+\[
+E_r\%=E_r\cdot 100.
+\]
+
+Así:
+\[
+E_r\%=0.0005067(100)=0.0507\%.
+\]
+
+Por lo tanto:
+\[
+\boxed{E_a=0.0016}
+\]
+\[
+\boxed{E_r=0.0005}
+\]
+\[
+\boxed{E_r\%=0.0507\%}
+\]
+\end{respuesta}
+
+
+\item
+En un proceso iterativo se obtuvieron las siguientes aproximaciones: \puntaje{4}
+\[
+x_1=2.2360,\qquad x_2=2.2368,\qquad x_3=2.2361.
+\]
+Calcule el error aproximado absoluto y el error aproximado relativo porcentual entre $x_2$ y $x_3$, tomando $x_3$ como aproximación actual.
+
+\begin{respuesta}
+El error aproximado absoluto es:
+\[
+E_a^{aprox}=|x_3-x_2|.
+\]
+
+Entonces:
+\[
+E_a^{aprox}=|2.2361-2.2368|=0.0007.
+\]
+
+El error aproximado relativo porcentual se calcula como:
+\[
+E_r^{aprox}\%=\left|\frac{x_3-x_2}{x_3}\right|\cdot 100.
+\]
+
+Sustituyendo:
+\[
+E_r^{aprox}\%=\left|\frac{2.2361-2.2368}{2.2361}\right|\cdot 100.
+\]
+
+\[
+E_r^{aprox}\%=\frac{0.0007}{2.2361}\cdot 100=0.0313\%.
+\]
+
+Por lo tanto:
+\[
+\boxed{E_a^{aprox}=0.0007}
+\]
+\[
+\boxed{E_r^{aprox}\%=0.0313\%}
+\]
+\end{respuesta}
+
+
+% ---------------- PARTE II ----------------
+
+\item 
+Considere la función \puntaje{5}
+\[
+f(x)=x^3-4x+1.
+\]
+Verifique que existe al menos una raíz en el intervalo $[0,1]$ y aplique cuatro iteraciones del método de bisección.
+
+\begin{respuesta}
+Primero se evalúa la función en los extremos del intervalo:
+\[
+f(0)=0^3-4(0)+1=1.
+\]
+
+\[
+f(1)=1^3-4(1)+1=1-4+1=-2.
+\]
+
+Como:
+\[
+f(0)\cdot f(1)=1(-2)=-2<0,
+\]
+existe al menos una raíz en el intervalo $[0,1]$.
+
+Ahora se aplica el método de bisección:
+\[
+m_i=\frac{a_i+b_i}{2}.
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c|c|c|c}
+\toprule
+$i$ & $a_i$ & $b_i$ & $m_i$ & $f(m_i)$ & Nuevo intervalo \\
+\midrule
+1 & 0 & 1 & 0.5000 & $-0.8750$ & $[0,0.5000]$ \\
+2 & 0 & 0.5000 & 0.2500 & $0.0156$ & $[0.2500,0.5000]$ \\
+3 & 0.2500 & 0.5000 & 0.3750 & $-0.4473$ & $[0.2500,0.3750]$ \\
+4 & 0.2500 & 0.3750 & 0.3125 & $-0.2195$ & $[0.2500,0.3125]$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Después de cuatro iteraciones, la raíz se encuentra en el intervalo:
+\[
+\boxed{[0.2500,0.3125]}.
+\]
+
+La aproximación obtenida en la cuarta iteración es:
+\[
+\boxed{x\approx 0.3125}.
+\]
+\end{respuesta}
+
+
+\item
+Para la función \puntaje{6}
+\[
+f(x)=x^3-4x+1,
+\]
+aplique tres iteraciones del método de falsa posición en el intervalo $[0,1]$.
+
+\begin{respuesta}
+La fórmula del método de falsa posición es:
+\[
+c_i=b_i-\frac{f(b_i)(a_i-b_i)}{f(a_i)-f(b_i)}.
+\]
+
+Como:
+\[
+f(0)=1,\qquad f(1)=-2,
+\]
+hay cambio de signo en $[0,1]$.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c|c|c|c}
+\toprule
+$i$ & $a_i$ & $b_i$ & $c_i$ & $f(c_i)$ & Nuevo intervalo \\
+\midrule
+1 & 0 & 1 & 0.3333 & $-0.2963$ & $[0,0.3333]$ \\
+2 & 0 & 0.3333 & 0.2571 & $-0.0116$ & $[0,0.2571]$ \\
+3 & 0 & 0.2571 & 0.2542 & $-0.0004$ & $[0,0.2542]$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Después de tres iteraciones, la aproximación obtenida es:
+\[
+\boxed{x\approx 0.2542}.
+\]
+\end{respuesta}
+
+
+\item
+Compare las aproximaciones obtenidas con bisección y falsa posición. Indique cuál parece acercarse más rápido a la raíz y explique por qué. \puntaje{2}
+
+\begin{respuesta}
+Con el método de bisección, después de cuatro iteraciones se obtuvo:
+\[
+x\approx 0.3125.
+\]
+
+Con el método de falsa posición, después de tres iteraciones se obtuvo:
+\[
+x\approx 0.2542.
+\]
+
+Además, se observó que:
+\[
+f(0.2542)\approx -0.0004,
+\]
+lo cual está muy cerca de cero.
+
+Por lo tanto, en este caso, el método de \textbf{falsa posición} parece acercarse más rápido a la raíz. Esto ocurre porque falsa posición no toma simplemente el punto medio del intervalo, sino que usa una recta secante entre los extremos para estimar mejor dónde la función corta al eje $x$.
+
+\[
+\boxed{\text{La falsa posición converge más rápido en este ejercicio.}}
+\]
+\end{respuesta}
+
+
+% ---------------- PARTE III ----------------
+
+\item
+Sea \puntaje{4}
+\[
+f(x)=x^3-2x-5.
+\]
+Aplique el método de Newton-Raphson con $x_0=2$ durante tres iteraciones.
+
+\begin{respuesta}
+Primero calculamos la derivada:
+\[
+f'(x)=3x^2-2.
+\]
+
+La fórmula de Newton-Raphson es:
+\[
+x_{i+1}=x_i-\frac{f(x_i)}{f'(x_i)}.
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c|c|c}
+\toprule
+$i$ & $x_i$ & $f(x_i)$ & $f'(x_i)$ & $x_{i+1}$ \\
+\midrule
+0 & 2.0000 & $-1.0000$ & 10.0000 & 2.1000 \\
+1 & 2.1000 & 0.0610 & 11.2300 & 2.0946 \\
+2 & 2.0946 & 0.0002 & 11.1616 & 2.0946 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Por tanto, después de tres iteraciones:
+\[
+\boxed{x\approx 2.0946}.
+\]
+\end{respuesta}
+
+
+\item
+Para la función  \puntaje{6}
+\[
+f(x)=x^3-2x-5,
+\]
+aplique el método de la secante con $x_0=2$ y $x_1=3$ durante tres iteraciones.
+
+\begin{respuesta}
+La fórmula del método de la secante es:
+\[
+x_{i+1}=x_i-\frac{f(x_i)(x_i-x_{i-1})}{f(x_i)-f(x_{i-1})}.
+\]
+
+Calculamos:
+\[
+f(2)=2^3-2(2)-5=8-4-5=-1.
+\]
+
+\[
+f(3)=3^3-2(3)-5=27-6-5=16.
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c|c|c}
+\toprule
+Iteración & $x_{i-1}$ & $x_i$ & $f(x_i)$ & $x_{i+1}$ \\
+\midrule
+1 & 2.0000 & 3.0000 & 16.0000 & 2.0588 \\
+2 & 3.0000 & 2.0588 & $-0.3908$ & 2.0813 \\
+3 & 2.0588 & 2.0813 & $-0.1472$ & 2.0948 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Después de tres iteraciones, la aproximación obtenida es:
+\[
+\boxed{x\approx 2.0948}.
+\]
+\end{respuesta}
+
+
+\item
+Considere la ecuación \puntaje{6}
+\[
+x^3+x-1=0.
+\]
+Se propone la forma de punto fijo:
+\[
+x=g(x)=\sqrt[3]{1-x}.
+\]
+Con $x_0=0.5$, calcule $x_1$, $x_2$ y $x_3$. Luego indique si el proceso parece acercarse a una solución.
+
+\begin{respuesta}
+La fórmula de iteración de punto fijo es:
+\[
+x_{i+1}=g(x_i).
+\]
+
+En este caso:
+\[
+x_{i+1}=\sqrt[3]{1-x_i}.
+\]
+
+Con:
+\[
+x_0=0.5,
+\]
+se tiene:
+
+\[
+x_1=\sqrt[3]{1-0.5}=\sqrt[3]{0.5}=0.7937.
+\]
+
+\[
+x_2=\sqrt[3]{1-0.7937}=\sqrt[3]{0.2063}=0.5909.
+\]
+
+\[
+x_3=\sqrt[3]{1-0.5909}=\sqrt[3]{0.4091}=0.7424.
+\]
+
+Por tanto:
+\[
+\boxed{x_1=0.7937}
+\]
+\[
+\boxed{x_2=0.5909}
+\]
+\[
+\boxed{x_3=0.7424}
+\]
+
+Las aproximaciones no se estabilizan rápidamente, porque alternan entre valores relativamente separados. Por ello, aunque podrían aproximarse lentamente, esta forma de punto fijo no muestra una convergencia rápida en las primeras iteraciones.
+
+\[
+\boxed{\text{El proceso no parece estabilizarse rápidamente.}}
+\]
+\end{respuesta}
+
+
+% ---------------- PARTE IV ----------------
+
+\item
+Resuelva mediante eliminación de Gauss el siguiente sistema lineal (Es necesario indicar las operaciones de renglón aplicadas): \puntaje{6}
+\[
+\begin{cases}
+3x+2y-z=1,\\
+2x-2y+4z=-2,\\
+-x+\frac{1}{2}y-z=0.
+\end{cases}
+\]
+
+\begin{respuesta}
+La matriz aumentada del sistema es:
+\[
+\left[
+\begin{array}{ccc|c}
+3 & 2 & -1 & 1\\
+2 & -2 & 4 & -2\\
+-1 & \frac{1}{2} & -1 & 0
+\end{array}
+\right].
+\]
+
+Para facilitar el proceso, intercambiamos la primera y tercera fila y multiplicamos por $-1$ la nueva primera fila:
+\[
+R_1\leftrightarrow R_3,\qquad R_1\leftarrow -R_1.
+\]
+
+Así:
+\[
+\left[
+\begin{array}{ccc|c}
+1 & -\frac{1}{2} & 1 & 0\\
+2 & -2 & 4 & -2\\
+3 & 2 & -1 & 1
+\end{array}
+\right].
+\]
+
+Ahora eliminamos la primera columna debajo del pivote:
+\[
+R_2\leftarrow R_2-2R_1,
+\]
+\[
+R_3\leftarrow R_3-3R_1.
+\]
+
+Entonces:
+\[
+\left[
+\begin{array}{ccc|c}
+1 & -\frac{1}{2} & 1 & 0\\
+0 & -1 & 2 & -2\\
+0 & \frac{7}{2} & -4 & 1
+\end{array}
+\right].
+\]
+
+Eliminamos la segunda columna en la tercera fila:
+\[
+R_3\leftarrow R_3+\frac{7}{2}R_2.
+\]
+
+Se obtiene:
+\[
+\left[
+\begin{array}{ccc|c}
+1 & -\frac{1}{2} & 1 & 0\\
+0 & -1 & 2 & -2\\
+0 & 0 & 3 & -6
+\end{array}
+\right].
+\]
+
+Por sustitución regresiva:
+
+De la tercera fila:
+\[
+3z=-6,
+\]
+\[
+z=-2.
+\]
+
+De la segunda fila:
+\[
+-y+2z=-2.
+\]
+
+Sustituyendo $z=-2$:
+\[
+-y+2(-2)=-2,
+\]
+\[
+-y-4=-2,
+\]
+\[
+-y=2,
+\]
+\[
+y=-2.
+\]
+
+De la primera fila:
+\[
+x-\frac{1}{2}y+z=0.
+\]
+
+Sustituyendo $y=-2$ y $z=-2$:
+\[
+x-\frac{1}{2}(-2)-2=0,
+\]
+\[
+x+1-2=0,
+\]
+\[
+x=1.
+\]
+
+Por lo tanto, la solución del sistema es:
+\[
+\boxed{x=1,\qquad y=-2,\qquad z=-2}.
+\]
+\end{respuesta}
+
+
+\item
+Considere el sistema no lineal \puntaje{4}
+\[
+F(x,y)=
+\begin{pmatrix}
+x^2+y^2-5\\
+xy-2
+\end{pmatrix}.
+\]
+Calcule la matriz jacobiana y realice una iteración de Newton-Raphson para sistemas con el punto inicial $(x^{(0)},y^{(0)})=(2,1)$.
+
+\begin{respuesta}
+El sistema está dado por:
+\[
+F(x,y)=
+\begin{pmatrix}
+F_1(x,y)\\
+F_2(x,y)
+\end{pmatrix}
+=
+\begin{pmatrix}
+x^2+y^2-5\\
+xy-2
+\end{pmatrix}.
+\]
+
+La matriz jacobiana es:
+\[
+J_F(x,y)=
+\begin{pmatrix}
+\frac{\partial F_1}{\partial x} & \frac{\partial F_1}{\partial y}\\
+\frac{\partial F_2}{\partial x} & \frac{\partial F_2}{\partial y}
+\end{pmatrix}.
+\]
+
+Calculando las derivadas parciales:
+\[
+\frac{\partial F_1}{\partial x}=2x,
+\qquad
+\frac{\partial F_1}{\partial y}=2y,
+\]
+\[
+\frac{\partial F_2}{\partial x}=y,
+\qquad
+\frac{\partial F_2}{\partial y}=x.
+\]
+
+Por tanto:
+\[
+\boxed{
+J_F(x,y)=
+\begin{pmatrix}
+2x & 2y\\
+y & x
+\end{pmatrix}
+}.
+\]
+
+Ahora evaluamos en el punto inicial:
+\[
+(x^{(0)},y^{(0)})=(2,1).
+\]
+
+Primero:
+\[
+F(2,1)=
+\begin{pmatrix}
+2^2+1^2-5\\
+2(1)-2
+\end{pmatrix}
+=
+\begin{pmatrix}
+4+1-5\\
+2-2
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\
+0
+\end{pmatrix}.
+\]
+
+La matriz jacobiana evaluada en $(2,1)$ es:
+\[
+J_F(2,1)=
+\begin{pmatrix}
+2(2) & 2(1)\\
+1 & 2
+\end{pmatrix}
+=
+\begin{pmatrix}
+4 & 2\\
+1 & 2
+\end{pmatrix}.
+\]
+
+El método de Newton-Raphson para sistemas se expresa como:
+\[
+J_F(x^{(k)},y^{(k)})
+\begin{pmatrix}
+\Delta x\\
+\Delta y
+\end{pmatrix}
+=
+-F(x^{(k)},y^{(k)}).
+\]
+
+Como:
+\[
+F(2,1)=
+\begin{pmatrix}
+0\\
+0
+\end{pmatrix},
+\]
+entonces:
+\[
+-F(2,1)=
+\begin{pmatrix}
+0\\
+0
+\end{pmatrix}.
+\]
+
+Por tanto:
+\[
+\begin{pmatrix}
+4 & 2\\
+1 & 2
+\end{pmatrix}
+\begin{pmatrix}
+\Delta x\\
+\Delta y
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\
+0
+\end{pmatrix}.
+\]
+
+De aquí:
+\[
+\Delta x=0,
+\qquad
+\Delta y=0.
+\]
+
+Entonces:
+\[
+x^{(1)}=x^{(0)}+\Delta x=2+0=2,
+\]
+\[
+y^{(1)}=y^{(0)}+\Delta y=1+0=1.
+\]
+
+Por lo tanto:
+\[
+\boxed{(x^{(1)},y^{(1)})=(2,1)}.
+\]
+
+Esto indica que el punto inicial ya era solución del sistema.
+\end{respuesta}
+
+
+\item
+Sea \puntaje{4}
+\[
+A=
+\begin{pmatrix}
+4 & 1\\
+2 & 3
+\end{pmatrix}.
+\]
+Calcule $A^{-1}$ y verifique su resultado mediante el producto $AA^{-1}$.
+
+\begin{respuesta}
+Para una matriz:
+\[
+A=
+\begin{pmatrix}
+a & b\\
+c & d
+\end{pmatrix},
+\]
+su inversa se calcula como:
+\[
+A^{-1}=\frac{1}{ad-bc}
+\begin{pmatrix}
+d & -b\\
+-c & a
+\end{pmatrix}.
+\]
+
+En este caso:
+\[
+a=4,\quad b=1,\quad c=2,\quad d=3.
+\]
+
+El determinante es:
+\[
+\det(A)=ad-bc=4(3)-1(2)=12-2=10.
+\]
+
+Entonces:
+\[
+A^{-1}=\frac{1}{10}
+\begin{pmatrix}
+3 & -1\\
+-2 & 4
+\end{pmatrix}.
+\]
+
+Por tanto:
+\[
+\boxed{
+A^{-1}=
+\begin{pmatrix}
+\frac{3}{10} & -\frac{1}{10}\\
+-\frac{2}{10} & \frac{4}{10}
+\end{pmatrix}
+}
+\]
+
+o, en forma decimal:
+\[
+\boxed{
+A^{-1}=
+\begin{pmatrix}
+0.3 & -0.1\\
+-0.2 & 0.4
+\end{pmatrix}
+}.
+\]
+
+Verificamos mediante el producto:
+\[
+AA^{-1}=
+\begin{pmatrix}
+4 & 1\\
+2 & 3
+\end{pmatrix}
+\begin{pmatrix}
+0.3 & -0.1\\
+-0.2 & 0.4
+\end{pmatrix}.
+\]
+
+Calculando:
+\[
+AA^{-1}=
+\begin{pmatrix}
+4(0.3)+1(-0.2) & 4(-0.1)+1(0.4)\\
+2(0.3)+3(-0.2) & 2(-0.1)+3(0.4)
+\end{pmatrix}.
+\]
+
+\[
+AA^{-1}=
+\begin{pmatrix}
+1.2-0.2 & -0.4+0.4\\
+0.6-0.6 & -0.2+1.2
+\end{pmatrix}.
+\]
+
+\[
+AA^{-1}=
+\begin{pmatrix}
+1 & 0\\
+0 & 1
+\end{pmatrix}.
+\]
+
+Por lo tanto, la inversa calculada es correcta.
+\end{respuesta}
+
+
+% ---------------- PARTE V ----------------
+
+
+
 
 
 \end{preguntas}

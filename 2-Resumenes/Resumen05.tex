@@ -6,6 +6,8 @@
 \usepackage{enumitem}
 \usepackage{aleph-comandos}
 \usepackage{booktabs}
+\input{codigo-python.tex}
+
 
 
 % -- Datos
@@ -30,16 +32,326 @@
 
 \encabezado
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Regresión lineal y polinomial}
+
+\begin{defi}[Regresión lineal]
+    Dado un conjunto de datos $(x_1,y_1),(x_2,y_2),\ldots,(x_n,y_n)$, la \textbf{regresión lineal} busca encontrar el modelo
+    \[
+        y = a_0 + a_1 x
+    \]
+    que mejor represente la tendencia de los datos en el sentido de los mínimos cuadrados.
+\end{defi}
+
+\begin{defi}[Ajuste por mínimos cuadrados]
+    El criterio de \textbf{mínimos cuadrados} determina los coeficientes $a_0$ y $a_1$ que minimizan la suma de los cuadrados de los residuos:
+    \[
+        S = \sum_{i=1}^{n}(y_i - a_0 - a_1 x_i)^2.
+    \]
+    Los valores óptimos se obtienen de las ecuaciones normales:
+    \[
+        a_1 = \frac{n\displaystyle\sum_{i=1}^{n}x_i y_i - \displaystyle\sum_{i=1}^{n}x_i\displaystyle\sum_{i=1}^{n}y_i}{n\displaystyle\sum_{i=1}^{n}x_i^2 - \left(\displaystyle\sum_{i=1}^{n}x_i\right)^2},
+        \qquad
+        a_0 = \bar{y} - a_1\bar{x},
+    \]
+    donde $\bar{x}$ y $\bar{y}$ son los promedios de $x_i$ e $y_i$, respectivamente.
+\end{defi}
+
+\begin{ejem}
+    Consideremos los datos
+    \[
+        \begin{array}{c|cccc}
+            x_i & 1 & 2 & 4 & 5\\
+            \hline
+            y_i & 2 & 3 & 5 & 7
+        \end{array}
+    \]
+    Se tiene $n=4$, $\sum x_i=12$, $\sum y_i=17$, $\sum x_i^2=46$ y $\sum x_iy_i=63$. Entonces
+    \[
+        a_1 = \frac{4(63)-12(17)}{4(46)-12^2} = \frac{252-204}{184-144} = \frac{48}{40} = 1.2,
+        \qquad
+        a_0 = \frac{17}{4}-1.2\cdot\frac{12}{4} = 4.25-3.60 = 0.65.
+    \]
+    El modelo ajustado es $y = 0.65 + 1.2x$.
+\end{ejem}
+
+\begin{defi}[Linealización de datos]
+    Cuando la relación entre las variables no es lineal, es posible transformar los datos para obtener un modelo lineal equivalente. Algunas transformaciones comunes son:
+    \begin{enumerate}
+        \item Modelo exponencial $y=ae^{bx}$: se toma $Y=\ln(y)$, obteniendo $Y=\ln(a)+bx$.
+        \item Modelo potencial $y=ax^b$: se toma $Y=\ln(y)$ y $X=\ln(x)$, obteniendo $Y=\ln(a)+bX$.
+        \item Modelo recíproco $y=\dfrac{1}{a+bx}$: se toma $Y=\dfrac{1}{y}$, obteniendo $Y=a+bx$.
+    \end{enumerate}
+    Una vez transformados los datos, se aplica regresión lineal sobre las variables transformadas y se recuperan los parámetros originales.
+\end{defi}
+
+\begin{ejem}
+    Supongamos que los datos siguen un modelo exponencial $y=ae^{bx}$. Al aplicar la transformación $Y=\ln(y)$, los datos transformados son:
+    \[
+        \begin{array}{c|ccc}
+            x_i & 0 & 1 & 2\\
+            \hline
+            Y_i=\ln(y_i) & 0.00 & 1.00 & 2.00
+        \end{array}
+    \]
+    La regresión lineal sobre $(x_i,Y_i)$ da $\ln(a)=0$ y $b=1$, por lo que el modelo ajustado es $y=e^x$.
+\end{ejem}
+
+\begin{defi}[Regresión polinomial]
+    La \textbf{regresión polinomial} de grado $m$ ajusta el modelo
+    \[
+        y = a_0 + a_1 x + a_2 x^2 + \cdots + a_m x^m
+    \]
+    a un conjunto de $n>m$ datos. Los coeficientes se obtienen minimizando la suma de cuadrados de los residuos, lo que conduce a un sistema lineal de ecuaciones normales expresable en forma matricial como
+    \[
+        A^T A\,\mathbf{a} = A^T\mathbf{y},
+    \]
+    donde $A$ es la matriz de Vandermonde con columnas $1,x,x^2,\ldots,x^m$ y $\mathbf{a}=(a_0,a_1,\ldots,a_m)^T$.
+\end{defi}
+
+\begin{ejem}
+    Para los datos
+    \[
+        \begin{array}{c|ccccc}
+            x_i & 0 & 1 & 2 & 3 & 4\\
+            \hline
+            y_i & 2.1 & 3.0 & 6.2 & 11.5 & 18.8
+        \end{array}
+    \]
+    se ajusta el modelo cuadrático $y=a_0+a_1 x+a_2 x^2$. Resolviendo las ecuaciones normales se obtiene $a_0\approx 1.96$, $a_1\approx 0.60$, $a_2\approx 1.12$.
+\end{ejem}
+
+\begin{defi}[Regresión lineal múltiple]
+    La \textbf{regresión lineal múltiple} ajusta un modelo que depende de $k$ variables independientes $x_1,x_2,\ldots,x_k$:
+    \[
+        y = a_0 + a_1 x_1 + a_2 x_2 + \cdots + a_k x_k.
+    \]
+    Los coeficientes se determinan resolviendo el sistema normal $A^T A\,\mathbf{a} = A^T\mathbf{y}$, donde $A$ es la matriz con una columna de unos seguida de $k$ columnas con los valores de cada variable independiente.
+\end{defi}
+
+\begin{ejem}
+    Para el modelo $z=a_0+a_1 x+a_2 y$ con los datos
+    \[
+        \begin{array}{c|cccc}
+            x_i & 1 & 2 & 3 & 4\\
+            \hline
+            y_i & 1 & 3 & 2 & 4\\
+            \hline
+            z_i & 3.1 & 7.8 & 8.2 & 14.0
+        \end{array}
+    \]
+    la matriz de diseño es
+    \[
+        A=
+        \begin{pmatrix}
+            1 & 1 & 1\\
+            1 & 2 & 3\\
+            1 & 3 & 2\\
+            1 & 4 & 4
+        \end{pmatrix}.
+    \]
+    Resolviendo $A^T A\,\mathbf{a}=A^T\mathbf{z}$ se obtienen los coeficientes $a_0$, $a_1$ y $a_2$ del modelo.
+\end{ejem}
+
+\begin{advertencia}
+    La calidad del ajuste puede medirse con el coeficiente de determinación $R^2\in[0,1]$. Un valor cercano a $1$ indica que el modelo explica gran parte de la variabilidad de los datos, aunque esto no garantiza que sea adecuado para predecir fuera del rango observado.
+\end{advertencia}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diferenciación numérica}
 
+\begin{defi}[Diferenciación numérica]
+    La \textbf{diferenciación numérica} aproxima la derivada de una función $f$ en un punto $x$ usando valores de $f$ en puntos cercanos. Se basa en el cociente diferencial:
+    \[
+        f'(x) = \lim_{h\to 0}\frac{f(x+h)-f(x)}{h}.
+    \]
+    Al sustituir el límite por un valor pequeño pero finito de $h$, se obtienen fórmulas llamadas \textbf{diferencias finitas}.
+\end{defi}
+
+\begin{defi}[Diferencia hacia adelante]
+    La \textbf{diferencia finita hacia adelante} aproxima la derivada mediante
+    \[
+        f'(x)\approx\frac{f(x+h)-f(x)}{h}.
+    \]
+    El error de truncamiento es $O(h)$.
+\end{defi}
+
+\begin{ejem}
+    Para $f(x)=e^x$ en $x=1$ con $h=0.1$:
+    \[
+        f'(1)\approx\frac{e^{1.1}-e^{1}}{0.1}=\frac{3.0042-2.7183}{0.1}=2.859.
+    \]
+    El valor exacto es $f'(1)=e\approx 2.718$, por lo que el error es $|2.718-2.859|\approx 0.141$.
+\end{ejem}
+
+\begin{defi}[Diferencia hacia atrás]
+    La \textbf{diferencia finita hacia atrás} aproxima la derivada mediante
+    \[
+        f'(x)\approx\frac{f(x)-f(x-h)}{h}.
+    \]
+    El error de truncamiento es también $O(h)$.
+\end{defi}
+
+\begin{ejem}
+    Para $f(x)=e^x$ en $x=1$ con $h=0.1$:
+    \[
+        f'(1)\approx\frac{e^{1}-e^{0.9}}{0.1}=\frac{2.7183-2.4596}{0.1}=2.587.
+    \]
+    El error es $|2.718-2.587|\approx 0.131$.
+\end{ejem}
+
+\begin{defi}[Diferencia centrada]
+    La \textbf{diferencia finita centrada} aproxima la derivada usando puntos a ambos lados de $x$:
+    \[
+        f'(x)\approx\frac{f(x+h)-f(x-h)}{2h}.
+    \]
+    El error de truncamiento es $O(h^2)$, mejor que los métodos anteriores.
+\end{defi}
+
+\begin{ejem}
+    Para $f(x)=e^x$ en $x=1$ con $h=0.1$:
+    \[
+        f'(1)\approx\frac{e^{1.1}-e^{0.9}}{0.2}=\frac{3.0042-2.4596}{0.2}=2.723.
+    \]
+    El error es $|2.718-2.723|\approx 0.005$, significativamente menor que los métodos anteriores.
+\end{ejem}
+
+Los tres métodos se comparan en la siguiente tabla:
+
+\begin{center}
+\small
+\begin{tabular}{p{0.26\textwidth}p{0.40\textwidth}p{0.18\textwidth}}
+\toprule
+Método & Fórmula & Error \\
+\midrule
+Diferencia hacia adelante & $\dfrac{f(x+h)-f(x)}{h}$ & $O(h)$ \\[4mm]
+Diferencia hacia atrás & $\dfrac{f(x)-f(x-h)}{h}$ & $O(h)$ \\[4mm]
+Diferencia centrada & $\dfrac{f(x+h)-f(x-h)}{2h}$ & $O(h^2)$ \\[2mm]
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{advertencia}
+    Un valor de $h$ muy pequeño no siempre mejora la aproximación: los errores de redondeo se amplifican cuando $h\to 0$, por lo que existe un valor óptimo de $h$ que equilibra el error de truncamiento y el error numérico.
+\end{advertencia}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Diferenciación numérica de orden superior y parcial}
 
+\begin{defi}[Segunda derivada numérica]
+    La \textbf{segunda derivada} de $f$ en $x$ puede aproximarse combinando evaluaciones de $f$. La fórmula centrada es
+    \[
+        f''(x)\approx\frac{f(x+h)-2f(x)+f(x-h)}{h^2}.
+    \]
+    El error de truncamiento de esta fórmula es $O(h^2)$.
+\end{defi}
+
+\begin{ejem}
+    Para $f(x)=e^x$ en $x=1$ con $h=0.1$:
+    \[
+        f''(1)\approx\frac{e^{1.1}-2e^{1}+e^{0.9}}{(0.1)^2}=\frac{3.0042-5.4366+2.4596}{0.01}=\frac{0.0272}{0.01}=2.72.
+    \]
+    El valor exacto es $f''(1)=e\approx 2.718$, por lo que el error es $|2.718-2.72|\approx 0.002$.
+\end{ejem}
+
+\begin{defi}[Derivada parcial numérica]
+    Para una función $f(x,y)$, las \textbf{derivadas parciales} numéricas se obtienen manteniendo una variable fija. Usando diferencias centradas:
+    \[
+        \frac{\partial f}{\partial x}(x,y)\approx\frac{f(x+h,y)-f(x-h,y)}{2h},
+        \qquad
+        \frac{\partial f}{\partial y}(x,y)\approx\frac{f(x,y+h)-f(x,y-h)}{2h}.
+    \]
+\end{defi}
+
+\begin{ejem}
+    Para $f(x,y)=x^2+3xy+y^2$ en el punto $(1,2)$ con $h=0.1$:
+    \begin{align*}
+        f(1.1,2)&=1.21+6.6+4=11.81,\\
+        f(0.9,2)&=0.81+5.4+4=10.21.
+    \end{align*}
+    Entonces
+    \[
+        \frac{\partial f}{\partial x}(1,2)\approx\frac{11.81-10.21}{2(0.1)}=\frac{1.60}{0.2}=8.0.
+    \]
+    El valor exacto es $\dfrac{\partial f}{\partial x}=2x+3y=2(1)+3(2)=8$.
+\end{ejem}
+
+\begin{advertencia}
+    Las mismas consideraciones sobre el tamaño de $h$ aplican para derivadas de orden superior y parciales. Reducir $h$ mejora el error de truncamiento, pero puede amplificar los errores de redondeo.
+\end{advertencia}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Integración numérica: regla del trapecio}
+
+\begin{defi}[Regla del trapecio simple]
+    La \textbf{regla del trapecio simple} aproxima la integral de $f$ en $[a,b]$ por el área del trapecio formado por los puntos extremos:
+    \[
+        \int_a^b f(x)\,dx \approx \frac{b-a}{2}\bigl[f(a)+f(b)\bigr].
+    \]
+    El error de esta aproximación es $-\dfrac{(b-a)^3}{12}f''(\xi)$ para algún $\xi\in(a,b)$.
+\end{defi}
+
+\begin{ejem}
+    Para estimar $\displaystyle\int_0^1 e^x\,dx$ con la regla del trapecio simple:
+    \[
+        \int_0^1 e^x\,dx\approx\frac{1}{2}\bigl[e^0+e^1\bigr]=\frac{1+e}{2}\approx 1.8591.
+    \]
+    El valor exacto es $e-1\approx 1.7183$, por lo que el error es $|1.7183-1.8591|\approx 0.141$.
+\end{ejem}
+
+\begin{defi}[Regla del trapecio compuesta]
+    La \textbf{regla del trapecio compuesta} divide $[a,b]$ en $n$ subintervalos de longitud $h=\dfrac{b-a}{n}$, con nodos $x_i=a+ih$ para $i=0,1,\ldots,n$. La aproximación es
+    \[
+        \int_a^b f(x)\,dx\approx\frac{h}{2}\left[f(x_0)+2\sum_{i=1}^{n-1}f(x_i)+f(x_n)\right].
+    \]
+    El error global es $O(h^2)$.
+\end{defi}
+
+\begin{ejem}
+    Para $\displaystyle\int_0^1 e^x\,dx$ con $n=4$ subintervalos se tiene $h=0.25$ y los nodos son $0,\,0.25,\,0.5,\,0.75,\,1$:
+    \[
+        \begin{array}{c|ccccc}
+            x_i & 0 & 0.25 & 0.5 & 0.75 & 1\\
+            \hline
+            e^{x_i} & 1.0000 & 1.2840 & 1.6487 & 2.1170 & 2.7183
+        \end{array}
+    \]
+    Entonces
+    \[
+        \int_0^1 e^x\,dx
+        \approx
+        \frac{0.25}{2}\bigl[1.0000+2(1.2840+1.6487+2.1170)+2.7183\bigr]
+        =
+        0.125\times 13.8177
+        \approx
+        1.7272.
+    \]
+    El error es $|1.7183-1.7272|\approx 0.009$.
+\end{ejem}
+
+\begin{advertencia}
+    Al duplicar $n$ (reducir $h$ a la mitad), el error de la regla del trapecio compuesta se reduce aproximadamente a la cuarta parte, pues el error es $O(h^2)$.
+\end{advertencia}
+
+\begin{pscodigo}
+\begin{function}[H]
+\KwData{Una función $f$, extremos $a$ y $b$, número de subintervalos $n$}
+\KwResult{Aproximación de $\displaystyle\int_a^b f(x)\,dx$}
+\SetKwFunction{trap}{Trapecio}
+\Fn{\trap{$f,a,b,n$}}{
+    $h:=\dfrac{b-a}{n}$\;
+    $S:=f(a)+f(b)$\;
+    \For{$i:=1$ \KwTo $n-1$}{
+        $S:=S+2\cdot f(a+i\cdot h)$\;
+    }
+    \Return{$\dfrac{h}{2}\cdot S$}
+    }
+\end{function}
+\end{pscodigo}
 
 \end{document}

@@ -1,0 +1,514 @@
+\documentclass[a4,11pt]{aleph-notas}
+% Actualizado en febrero de 2024
+% Funciona con TeXLive 2022
+% Para obtener solo el pdf, compilar con pdfLaTeX. 
+%  latexmk -pdf 01\ Cuestionarios/01\ Matrices.tex -output-directory="01 Cuestionarios"
+% Para obtener el xml compilar con XeLaTeX.
+% latexmk -xelatex 01\ Cuestionarios/01\ Matrices.tex -output-directory="01 Cuestionarios"
+
+% -- Paquetes adicionales
+\usepackage{aleph-moodle}
+\moodleregisternewcommands
+% Todos los comandos nuevos deben ir luego del comando anterior
+\usepackage{aleph-comandos}
+
+
+% -- Datos  
+\institucion{Facultad de Ciencias Exactas, Naturales y Ambientale}
+\carrera{Catálogo STEM}
+\asignatura{Métodos Numéricos}
+\tema{Cuestionario No. 2: Espacios vectoriales y aplicaciones lineales}
+\autor{Mario Cueva - Andrés Merino}
+\fecha{Periodo 2026-1}
+
+\logouno[0.18\textwidth]{Logos/logoPUCE_04_ac}
+\definecolor{colortext}{HTML}{1957d1}
+\definecolor{colordef}{HTML}{1957d1}
+\fuente{montserrat}
+
+% -- Otros comandos
+
+
+
+\begin{document}
+
+\encabezado
+
+\vspace*{-8mm}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Indicaciones}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Se plantean bancos de preguntas orientados a evaluar el \textbf{criterio}: «Comprende los conceptos de espacios vectoriales y aplicaciones lineales, incluyendo la base y dimensión, transformaciones lineales y sus propiedades», correspondiente al \textbf{resultado de aprendizaje}: Comprender los conceptos fundamentales del Álgebra Lineal y Geometría Analítica, incluyendo el estudio de matrices, determinantes, sistemas de ecuaciones lineales y espacios vectoriales, destacando su importancia en el análisis y resolución de problemas matemáticos.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Banco de preguntas}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{quiz}{Diferenciación hacia adelante}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Adelante-01}
+    % - Enunciado
+    Usando diferenciación numérica hacia adelante, aproxime \( f'(2) \) para la función \( f(x)=x^2 \), con \( h=0.1 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x)}{h}
+    \]
+    \item 4.1
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Adelante-02}
+    % - Enunciado
+    Usando diferenciación numérica hacia adelante, aproxime \( f'(1) \) para la función \( f(x)=3x+2 \), con \( h=0.5 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x)}{h}
+    \]
+    \item 3
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Adelante-03}
+    % - Enunciado
+    Usando diferenciación numérica hacia adelante, aproxime \( f'(0) \) para la función \( f(x)=x^3+1 \), con \( h=0.2 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x)}{h}
+    \]
+    \item 0.04
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Adelante-04}
+    % - Enunciado
+    Usando diferenciación numérica hacia adelante, aproxime \( f'(3) \) para la función \( f(x)=\sqrt{x} \), con \( h=0.01 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x)}{h}
+    \]
+    \item 0.28
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Adelante-05}
+    % - Enunciado
+    Usando diferenciación numérica hacia adelante, aproxime \( f'(1) \) para la función \( f(x)=e^{-x^2}\sin\left(\sqrt{x^3+1}\right) \), con \( h=0.01 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x)}{h}
+    \]
+    \item -0.535
+\end{numerical}
+
+\end{quiz}
+%%%%%%%%%%%%%%%%%
+\begin{quiz}{Diferenciación hacia atrás}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Atras-01}
+    % - Enunciado
+    Usando diferenciación numérica hacia atrás, aproxime \( f'(2) \) para la función \( f(x)=x^2 \), con \( h=0.1 \).
+    \[
+        f'(x)\approx \frac{f(x)-f(x-h)}{h}
+    \]
+    \item 3.9
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Atras-02}
+    % - Enunciado
+    Usando diferenciación numérica hacia atrás, aproxime \( f'(1) \) para la función \( f(x)=4x+3 \), con \( h=0.5 \).
+    \[
+        f'(x)\approx \frac{f(x)-f(x-h)}{h}
+    \]
+    \item 4
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Atras-03}
+    % - Enunciado
+    Usando diferenciación numérica hacia atrás, aproxime \( f'(3) \) para la función \( f(x)=x^3 \), con \( h=0.2 \).
+    \[
+        f'(x)\approx \frac{f(x)-f(x-h)}{h}
+    \]
+    \item 25.24
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Atras-04}
+    % - Enunciado
+    Usando diferenciación numérica hacia atrás, aproxime \( f'(4) \) para la función \( f(x)=\sqrt{x} \), con \( h=0.01 \).
+    \[
+        f'(x)\approx \frac{f(x)-f(x-h)}{h}
+    \]
+    \item 0.25
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Atras-05}
+    % - Enunciado
+    Usando diferenciación numérica hacia atrás, aproxime \( f'(1) \) para la función \( f(x)=e^x \), con \( h=0.1 \).
+    \[
+        f'(x)\approx \frac{f(x)-f(x-h)}{h}
+    \]
+    \item 2.59
+\end{numerical}
+
+\end{quiz}
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{quiz}{Diferenciación centrada}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Centrada-01}
+    % - Enunciado
+    Usando diferenciación numérica centrada, aproxime \( f'(2) \) para la función \( f(x)=x^2 \), con \( h=0.1 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x-h)}{2h}
+    \]
+    \item 4
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Centrada-02}
+    % - Enunciado
+    Usando diferenciación numérica centrada, aproxime \( f'(1) \) para la función \( f(x)=3x+2 \), con \( h=0.5 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x-h)}{2h}
+    \]
+    \item 3
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Centrada-03}
+    % - Enunciado
+    Usando diferenciación numérica centrada, aproxime \( f'(3) \) para la función \( f(x)=x^3 \), con \( h=0.2 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x-h)}{2h}
+    \]
+    \item 27.04
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Centrada-04}
+    % - Enunciado
+    Usando diferenciación numérica centrada, aproxime \( f'(4) \) para la función \( f(x)=\sqrt{x} \), con \( h=0.01 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x-h)}{2h}
+    \]
+    \item 0.25
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Diferenciacion-Centrada-05}
+    % - Enunciado
+    Usando diferenciación numérica centrada, aproxime \( f'(1) \) para la función \( f(x)=e^x \), con \( h=0.1 \).
+    \[
+        f'(x)\approx \frac{f(x+h)-f(x-h)}{2h}
+    \]
+    \item 2.72
+\end{numerical}
+
+\end{quiz}
+%%%%%%%%%%%%%%%%%%%
+\begin{quiz}{Segunda derivada}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Segunda-Derivada-01}
+    % - Enunciado
+    Usando diferenciación numérica para segunda derivada, aproxime \( f''(2) \) para la función \( f(x)=x^2 \), con \( h=0.1 \).
+    \[
+        f''(x)\approx \frac{f(x+h)-2f(x)+f(x-h)}{h^2}
+    \]
+    \item 2
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Segunda-Derivada-02}
+    % - Enunciado
+    Usando diferenciación numérica para segunda derivada, aproxime \( f''(1) \) para la función \( f(x)=x^3 \), con \( h=0.1 \).
+    \[
+        f''(x)\approx \frac{f(x+h)-2f(x)+f(x-h)}{h^2}
+    \]
+    \item 6
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Segunda-Derivada-03}
+    % - Enunciado
+    Usando diferenciación numérica para segunda derivada, aproxime \( f''(0) \) para la función \( f(x)=x^2+3x+1 \), con \( h=0.2 \).
+    \[
+        f''(x)\approx \frac{f(x+h)-2f(x)+f(x-h)}{h^2}
+    \]
+    \item 2
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Segunda-Derivada-04}
+    % - Enunciado
+    Usando diferenciación numérica para segunda derivada, aproxime \( f''(2) \) para la función \( f(x)=e^x \), con \( h=0.1 \).
+    \[
+        f''(x)\approx \frac{f(x+h)-2f(x)+f(x-h)}{h^2}
+    \]
+    \item 7.40
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Segunda-Derivada-05}
+    % - Enunciado
+    Usando diferenciación numérica para segunda derivada, aproxime \( f''(4) \) para la función \( f(x)=\sqrt{x} \), con \( h=0.1 \).
+    \[
+        f''(x)\approx \frac{f(x+h)-2f(x)+f(x-h)}{h^2}
+    \]
+    \item -0.03
+\end{numerical}
+
+\end{quiz}
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{quiz}{Derivada parcial}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Derivada-Parcial-Centrada-01}
+    % - Enunciado
+    Usando derivada parcial numérica centrada respecto de \(x\), aproxime \( f_x(1,2) \) para la función \( f(x,y)=x^2+y^2 \), con \( h=0.1 \).
+    \[
+        f_x(x,y)\approx \frac{f(x+h,y)-f(x-h,y)}{2h}
+    \]
+    \item 2
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Derivada-Parcial-Centrada-02}
+    % - Enunciado
+    Usando derivada parcial numérica centrada respecto de \(y\), aproxime \( f_y(1,2) \) para la función \( f(x,y)=x^2+y^2 \), con \( h=0.1 \).
+    \[
+        f_y(x,y)\approx \frac{f(x,y+h)-f(x,y-h)}{2h}
+    \]
+    \item 4
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Derivada-Parcial-Centrada-03}
+    % - Enunciado
+    Usando derivada parcial numérica centrada respecto de \(x\), aproxime \( f_x(2,1) \) para la función \( f(x,y)=3x+2y \), con \( h=0.5 \).
+    \[
+        f_x(x,y)\approx \frac{f(x+h,y)-f(x-h,y)}{2h}
+    \]
+    \item 3
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Derivada-Parcial-Centrada-04}
+    % - Enunciado
+    Usando derivada parcial numérica centrada respecto de \(y\), aproxime \( f_y(2,1) \) para la función \( f(x,y)=xy+y^2 \), con \( h=0.1 \).
+    \[
+        f_y(x,y)\approx \frac{f(x,y+h)-f(x,y-h)}{2h}
+    \]
+    \item 4
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Derivada-Parcial-Centrada-05}
+    % - Enunciado
+    Usando derivada parcial numérica centrada respecto de \(x\), aproxime \( f_x(1,3) \) para la función \( f(x,y)=x^2y+2y \), con \( h=0.1 \).
+    \[
+        f_x(x,y)\approx \frac{f(x+h,y)-f(x-h,y)}{2h}
+    \]
+    \item 6
+\end{numerical}
+
+\end{quiz}
+%%%%%%%%%%%%%%%%
+\begin{quiz}{Regla del trapecio simple}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Simple-01}
+    % - Enunciado
+    Usando la regla del trapecio simple, aproxime la integral
+    \[
+        \int_{0}^{2} x^2\,dx.
+    \]
+    Recuerde que:
+    \[
+        \int_a^b f(x)\,dx \approx \frac{b-a}{2}\left[f(a)+f(b)\right].
+    \]
+    \item 4
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Simple-02}
+    % - Enunciado
+    Usando la regla del trapecio simple, aproxime la integral
+    \[
+        \int_{1}^{3} (2x+1)\,dx.
+    \]
+    Recuerde que:
+    \[
+        \int_a^b f(x)\,dx \approx \frac{b-a}{2}\left[f(a)+f(b)\right].
+    \]
+    \item 10
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Simple-03}
+    % - Enunciado
+    Usando la regla del trapecio simple, aproxime la integral
+    \[
+        \int_{0}^{1} e^x\,dx.
+    \]
+    Recuerde que:
+    \[
+        \int_a^b f(x)\,dx \approx \frac{b-a}{2}\left[f(a)+f(b)\right].
+    \]
+    \item 1.86
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Simple-04}
+    % - Enunciado
+    Usando la regla del trapecio simple, aproxime la integral
+    \[
+        \int_{1}^{4} \sqrt{x}\,dx.
+    \]
+    Recuerde que:
+    \[
+        \int_a^b f(x)\,dx \approx \frac{b-a}{2}\left[f(a)+f(b)\right].
+    \]
+    \item 4.5
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Simple-05}
+    % - Enunciado
+    Usando la regla del trapecio simple, aproxime la integral
+    \[
+        \int_{0}^{\pi} \sin(x)\,dx.
+    \]
+    Recuerde que:
+    \[
+        \int_a^b f(x)\,dx \approx \frac{b-a}{2}\left[f(a)+f(b)\right].
+    \]
+    \item 0
+\end{numerical}
+
+\end{quiz}
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{quiz}{Regla del trapecio compuesta}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Compuesta-01}
+    % - Enunciado
+    Usando la regla del trapecio compuesta, aproxime la integral
+    \[
+        \int_{0}^{2} x^2\,dx
+    \]
+    con \( n=4 \) subintervalos.
+    \[
+        \int_a^b f(x)\,dx \approx \frac{h}{2}\left[f(x_0)+2f(x_1)+2f(x_2)+\cdots+2f(x_{n-1})+f(x_n)\right]
+    \]
+    \item 2.75
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Compuesta-02}
+    % - Enunciado
+    Usando la regla del trapecio compuesta, aproxime la integral
+    \[
+        \int_{0}^{4} (x+1)\,dx
+    \]
+    con \( n=4 \) subintervalos.
+    \[
+        \int_a^b f(x)\,dx \approx \frac{h}{2}\left[f(x_0)+2f(x_1)+2f(x_2)+\cdots+2f(x_{n-1})+f(x_n)\right]
+    \]
+    \item 12
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Compuesta-03}
+    % - Enunciado
+    Usando la regla del trapecio compuesta, aproxime la integral
+    \[
+        \int_{1}^{3} (x^2+1)\,dx
+    \]
+    con \( n=4 \) subintervalos.
+    \[
+        \int_a^b f(x)\,dx \approx \frac{h}{2}\left[f(x_0)+2f(x_1)+2f(x_2)+\cdots+2f(x_{n-1})+f(x_n)\right]
+    \]
+    \item 10.75
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Compuesta-04}
+    % - Enunciado
+    Usando la regla del trapecio compuesta, aproxime la integral
+    \[
+        \int_{0}^{1} e^x\,dx
+    \]
+    con \( n=4 \) subintervalos.
+    \[
+        \int_a^b f(x)\,dx \approx \frac{h}{2}\left[f(x_0)+2f(x_1)+2f(x_2)+\cdots+2f(x_{n-1})+f(x_n)\right]
+    \]
+    \item 1.73
+\end{numerical}
+
+\begin{numerical}[tolerance=0.01]%
+    % - Identificador
+    {Trapecio-Compuesta-05}
+    % - Enunciado
+    Usando la regla del trapecio compuesta, aproxime la integral
+    \[
+        \int_{0}^{\pi} \sin(x)\,dx
+    \]
+    con \( n=4 \) subintervalos.
+    \[
+        \int_a^b f(x)\,dx \approx \frac{h}{2}\left[f(x_0)+2f(x_1)+2f(x_2)+\cdots+2f(x_{n-1})+f(x_n)\right]
+    \]
+    \item 1.90
+\end{numerical}
+
+\end{quiz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}

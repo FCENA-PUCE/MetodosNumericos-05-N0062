@@ -6,6 +6,7 @@
 \usepackage{enumitem}
 \usepackage{aleph-comandos}
 \usepackage{booktabs}
+\input{codigo-python.tex}
 
 
 % -- Datos
@@ -24,6 +25,7 @@
 
 % -- Comandos adicionales
 \setlist[enumerate]{label=\roman*.}
+\newcommand{\vect}[1]{\mathbf{#1}}
 
 
 \begin{document}
@@ -33,10 +35,302 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Métodos iterativos: Jacobi y Gauss-Seidel}
 
+\begin{defi}[Método de Jacobi]
+    Dado el sistema lineal $A\vect{x}=\vect{b}$ de $n$ ecuaciones con $a_{ii}\neq 0$ para todo $i$, el \textbf{método de Jacobi} genera sucesivas aproximaciones mediante
+    \[
+        x_i^{(k+1)}
+        =
+        \frac{1}{a_{ii}}
+        \left(b_i - \sum_{\substack{j=1\\j\neq i}}^{n}a_{ij}\,x_j^{(k)}\right),
+        \qquad i=1,\ldots,n.
+    \]
+    Cada componente del nuevo vector se calcula usando únicamente los valores de la iteración anterior.
+\end{defi}
+
+\begin{teo}[Convergencia del método de Jacobi]
+    Si la matriz $A$ es \textbf{estrictamente diagonal dominante}, es decir,
+    \[
+        |a_{ii}|>\sum_{\substack{j=1\\j\neq i}}^{n}|a_{ij}|
+    \]
+    para todo $i=1,\ldots,n$, entonces el método de Jacobi converge hacia la solución del sistema para cualquier aproximación inicial $\vect{x}^{(0)}$.
+\end{teo}
+
+\begin{pscodigo}
+\begin{function}[H]
+\KwData{Matriz $A$, vector $\vect{b}$, aproximación inicial $\vect{x}^{(0)}$, tolerancia $\varepsilon$ y número máximo de iteraciones $N$}
+\KwResult{Una aproximación de la solución de $A\vect{x}=\vect{b}$}
+\SetKwFunction{Jacobi}{Jacobi}
+\Fn{\Jacobi{$A,\vect{b},\vect{x}^{(0)},\varepsilon,N$}}{
+    \For{$k:=1$ \KwTo $N$}{
+        \For{$i:=1$ \KwTo $n$}{
+            $x_i^{(k)}:=\dfrac{1}{a_{ii}}\left(b_i-\displaystyle\sum_{j\neq i}a_{ij}\,x_j^{(k-1)}\right)$\;
+        }
+        \If{$\left\|\vect{x}^{(k)}-\vect{x}^{(k-1)}\right\|<\varepsilon$}{
+            \Return{$\vect{x}^{(k)}$}
+        }
+    }
+    \Return{$\vect{x}^{(k)}$}
+    }
+\end{function}
+\end{pscodigo}
+
+\begin{ejem}
+    Consideremos el sistema
+    \[
+        \begin{cases}
+            2x+y=5,\\
+            x+3y=10.
+        \end{cases}
+    \]
+    La solución exacta es $(x,y)=(1,3)$. Las fórmulas de Jacobi son
+    \[
+        x^{(k+1)}=\frac{5-y^{(k)}}{2},\qquad y^{(k+1)}=\frac{10-x^{(k)}}{3}.
+    \]
+    Partiendo de $\vect{x}^{(0)}=(0,0)$, las primeras iteraciones producen
+    \[
+        \vect{x}^{(1)}=(2.5000,\;3.3333),\qquad
+        \vect{x}^{(2)}=(0.8333,\;2.5000),\qquad
+        \vect{x}^{(3)}=(1.2500,\;3.0556).
+    \]
+    Las aproximaciones se acercan progresivamente a la solución exacta $(1,3)$.
+\end{ejem}
+
+\begin{defi}[Método de Gauss-Seidel]
+    Dado el sistema lineal $A\vect{x}=\vect{b}$ de $n$ ecuaciones con $a_{ii}\neq 0$ para todo $i$, el \textbf{método de Gauss-Seidel} actualiza cada componente usando inmediatamente los valores ya calculados en la iteración actual:
+    \[
+        x_i^{(k+1)}
+        =
+        \frac{1}{a_{ii}}
+        \left(b_i - \sum_{j=1}^{i-1}a_{ij}\,x_j^{(k+1)} - \sum_{j=i+1}^{n}a_{ij}\,x_j^{(k)}\right),
+        \qquad i=1,\ldots,n.
+    \]
+\end{defi}
+
+\begin{teo}[Convergencia del método de Gauss-Seidel]
+    Si la matriz $A$ es estrictamente diagonal dominante, el método de Gauss-Seidel converge para cualquier aproximación inicial. En la práctica, Gauss-Seidel suele converger más rápido que Jacobi, aunque esto no está garantizado en todos los casos.
+\end{teo}
+
+\begin{pscodigo}
+\begin{function}[H]
+\KwData{Matriz $A$, vector $\vect{b}$, aproximación inicial $\vect{x}^{(0)}$, tolerancia $\varepsilon$ y número máximo de iteraciones $N$}
+\KwResult{Una aproximación de la solución de $A\vect{x}=\vect{b}$}
+\SetKwFunction{GS}{GaussSeidel}
+\Fn{\GS{$A,\vect{b},\vect{x}^{(0)},\varepsilon,N$}}{
+    \For{$k:=1$ \KwTo $N$}{
+        $\vect{x}_{\text{ant}}:=\vect{x}^{(k-1)}$\;
+        \For{$i:=1$ \KwTo $n$}{
+            $x_i^{(k)}:=\dfrac{1}{a_{ii}}\!\left(b_i-\displaystyle\sum_{j<i}a_{ij}\,x_j^{(k)}-\displaystyle\sum_{j>i}a_{ij}\,x_j^{(k-1)}\right)$\;
+        }
+        \If{$\left\|\vect{x}^{(k)}-\vect{x}_{\text{ant}}\right\|<\varepsilon$}{
+            \Return{$\vect{x}^{(k)}$}
+        }
+    }
+    \Return{$\vect{x}^{(k)}$}
+    }
+\end{function}
+\end{pscodigo}
+
+\begin{ejem}
+    Para el mismo sistema
+    \[
+        \begin{cases}
+            2x+y=5,\\
+            x+3y=10,
+        \end{cases}
+    \]
+    las fórmulas de Gauss-Seidel son
+    \[
+        x^{(k+1)}=\frac{5-y^{(k)}}{2},\qquad y^{(k+1)}=\frac{10-x^{(k+1)}}{3}.
+    \]
+    Partiendo de $\vect{x}^{(0)}=(0,0)$, las primeras iteraciones producen
+    \[
+        \vect{x}^{(1)}=(2.5000,\;2.5000),\qquad
+        \vect{x}^{(2)}=(1.2500,\;2.9167),\qquad
+        \vect{x}^{(3)}=(1.0417,\;2.9861).
+    \]
+    Al comparar con Jacobi, Gauss-Seidel converge más rápido hacia $(1,3)$ porque usa los valores actualizados de inmediato.
+\end{ejem}
+
+\begin{advertencia}
+    Tanto Jacobi como Gauss-Seidel pueden diverger si la matriz no cumple condiciones adecuadas. No basta con que el sistema tenga solución; la convergencia depende de las propiedades de $A$.
+\end{advertencia}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interpolación polinomial de Newton}
 
+\begin{defi}[Interpolación lineal]
+    Dados dos puntos $(x_0,f_0)$ y $(x_1,f_1)$ con $x_0\neq x_1$, el \textbf{polinomio interpolante lineal} es la recta
+    \[
+        P_1(x)=f_0+\frac{f_1-f_0}{x_1-x_0}(x-x_0).
+    \]
+    Este polinomio pasa exactamente por ambos puntos.
+\end{defi}
+
+\begin{ejem}
+    Dados los puntos $(1,3)$ y $(3,7)$, el polinomio interpolante lineal es
+    \[
+        P_1(x)=3+\frac{7-3}{3-1}(x-1)=3+2(x-1)=2x+1.
+    \]
+    Para estimar el valor en $x=2$ se obtiene $P_1(2)=5$.
+\end{ejem}
+
+\begin{defi}[Interpolación cuadrática]
+    Dados tres puntos $(x_0,f_0)$, $(x_1,f_1)$ y $(x_2,f_2)$ con nodos distintos, el \textbf{polinomio interpolante cuadrático} de Newton es
+    \[
+        P_2(x)
+        =
+        f_0
+        +
+        \frac{f_1-f_0}{x_1-x_0}(x-x_0)
+        +
+        \frac{\;\dfrac{f_2-f_1}{x_2-x_1}-\dfrac{f_1-f_0}{x_1-x_0}\;}{x_2-x_0}
+        (x-x_0)(x-x_1).
+    \]
+    Pasa exactamente por los tres puntos dados.
+\end{defi}
+
+\begin{ejem}
+    Dados los puntos $(0,1)$, $(1,3)$ y $(2,7)$, las diferencias cociente de primer orden son
+    \[
+        \frac{f_1-f_0}{x_1-x_0}=\frac{3-1}{1-0}=2,\qquad
+        \frac{f_2-f_1}{x_2-x_1}=\frac{7-3}{2-1}=4.
+    \]
+    El coeficiente cuadrático es $\dfrac{4-2}{2-0}=1$, por lo que
+    \[
+        P_2(x)=1+2x+x(x-1)=x^2+x+1.
+    \]
+\end{ejem}
+
+\begin{defi}[Diferencias divididas]
+    Dado un conjunto de nodos distintos $x_0,x_1,\ldots,x_n$, las \textbf{diferencias divididas} se definen recursivamente:
+    \[
+        f[x_i]=f(x_i),
+    \]
+    \[
+        f[x_i,x_{i+1},\ldots,x_{i+k}]
+        =
+        \frac{f[x_{i+1},\ldots,x_{i+k}]-f[x_i,\ldots,x_{i+k-1}]}{x_{i+k}-x_i}.
+    \]
+    Estas diferencias divididas son los coeficientes del polinomio interpolante de Newton.
+\end{defi}
+
+\begin{defi}[Polinomio de Newton]
+    Dados $n+1$ puntos con nodos distintos, el \textbf{polinomio interpolante de Newton} de grado $n$ es
+    \[
+        P_n(x)
+        =
+        \sum_{k=0}^{n}f[x_0,x_1,\ldots,x_k]\prod_{j=0}^{k-1}(x-x_j).
+    \]
+    La forma del polinomio facilita agregar nuevos nodos sin recalcular desde el inicio, ya que solo hay que añadir el siguiente término.
+\end{defi}
+
+\begin{ejem}
+    Para los puntos $(0,1)$, $(1,3)$, $(2,7)$ y $(3,13)$, la tabla de diferencias divididas es:
+    \[
+        \begin{array}{c|cccc}
+            x_i & f[x_i] & f[\cdot,\cdot] & f[\cdot,\cdot,\cdot] & f[\cdot,\cdot,\cdot,\cdot]\\[1mm]
+            \hline\\[-3mm]
+            0 & 1 &   &   &  \\
+            1 & 3 & 2 &   &  \\
+            2 & 7 & 4 & 1 &  \\
+            3 & 13& 6 & 1 & 0\\
+        \end{array}
+    \]
+    Como la diferencia dividida de orden 3 es cero, el polinomio resulta cuadrático:
+    \[
+        P_2(x)=1+2x+1\cdot x(x-1)=x^2+x+1.
+    \]
+\end{ejem}
+
+\begin{defi}[Error de interpolación]
+    Si $f$ es $n+1$ veces derivable en $[a,b]$ y $P_n$ es el polinomio interpolante en los nodos $x_0,x_1,\ldots,x_n\in[a,b]$, entonces para cada $x\in[a,b]$ existe $\xi$ en el intervalo más pequeño que contiene a $x,x_0,\ldots,x_n$, tal que
+    \[
+        f(x)-P_n(x)
+        =
+        \frac{f^{(n+1)}(\xi)}{(n+1)!}
+        \prod_{j=0}^{n}(x-x_j).
+    \]
+    El error depende de la magnitud de la derivada de orden $n+1$ y de la distancia de $x$ a los nodos.
+\end{defi}
+
+\begin{advertencia}
+    Agregar más nodos no siempre reduce el error. Con nodos igualmente espaciados en un intervalo amplio, el polinomio puede oscilar con gran amplitud cerca de los extremos, lo que se conoce como el \textbf{fenómeno de Runge}.
+\end{advertencia}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interpolación polinomial de Lagrange}
+
+\begin{defi}[Polinomio base de Lagrange]
+    Dados $n+1$ nodos distintos $x_0,x_1,\ldots,x_n$, el \textbf{$k$-ésimo polinomio base de Lagrange} es
+    \[
+        L_k(x)
+        =
+        \prod_{\substack{j=0\\j\neq k}}^{n}\frac{x-x_j}{x_k-x_j}.
+    \]
+    Se cumple que $L_k(x_k)=1$ y $L_k(x_j)=0$ para todo $j\neq k$.
+\end{defi}
+
+\begin{ejem}
+    Para los nodos $x_0=0$, $x_1=1$ y $x_2=2$, los polinomios base son
+    \begin{align*}
+        L_0(x)&=\frac{(x-1)(x-2)}{(0-1)(0-2)}=\frac{(x-1)(x-2)}{2},\\[2mm]
+        L_1(x)&=\frac{(x-0)(x-2)}{(1-0)(1-2)}=-x(x-2),\\[2mm]
+        L_2(x)&=\frac{(x-0)(x-1)}{(2-0)(2-1)}=\frac{x(x-1)}{2}.
+    \end{align*}
+\end{ejem}
+
+\begin{defi}[Polinomio interpolante de Lagrange]
+    Dados $n+1$ puntos $(x_0,f_0),(x_1,f_1),\ldots,(x_n,f_n)$ con nodos distintos, el \textbf{polinomio interpolante de Lagrange} de grado $n$ es
+    \[
+        P_n(x)=\sum_{k=0}^{n}f(x_k)\,L_k(x).
+    \]
+    Es el único polinomio de grado $\leq n$ que pasa exactamente por todos los puntos dados.
+\end{defi}
+
+\begin{ejem}
+    Para los puntos $(0,1)$, $(1,3)$ y $(2,7)$, usando los polinomios base anteriores,
+    \[
+        P_2(x)
+        =
+        1\cdot\frac{(x-1)(x-2)}{2}
+        +
+        3\cdot\bigl(-x(x-2)\bigr)
+        +
+        7\cdot\frac{x(x-1)}{2}.
+    \]
+    Al simplificar,
+    \[
+        P_2(x)
+        =
+        \frac{x^2-3x+2}{2}-3x^2+6x+\frac{7x^2-7x}{2}
+        =
+        x^2+x+1.
+    \]
+    Este resultado coincide con el obtenido mediante el polinomio de Newton.
+\end{ejem}
+
+\begin{defi}[Error de interpolación de Lagrange]
+    Si $f$ es $n+1$ veces derivable en $[a,b]$ y $P_n$ es el polinomio interpolante en los nodos $x_0,\ldots,x_n$, el error satisface
+    \[
+        |f(x)-P_n(x)|
+        \leq
+        \frac{M_{n+1}}{(n+1)!}
+        \left|\prod_{j=0}^{n}(x-x_j)\right|,
+    \]
+    donde $M_{n+1}=\max_{t\in[a,b]}\left|f^{(n+1)}(t)\right|$.
+\end{defi}
+
+\begin{advertencia}
+    Los métodos de Newton y de Lagrange producen exactamente el mismo polinomio interpolante para un mismo conjunto de puntos. Dado que el polinomio interpolante de grado $\leq n$ que pasa por $n+1$ puntos distintos es único, ambas formas coinciden y su error es idéntico.
+\end{advertencia}
+
+Los métodos se distinguen en su forma de construcción y uso práctico:
+\begin{enumerate}
+    \item La forma de Newton, basada en diferencias divididas, permite agregar nuevos nodos sin recalcular el polinomio completo: basta con añadir un término más.
+    \item La forma de Lagrange tiene una estructura simétrica que facilita el análisis teórico y no requiere calcular diferencias divididas.
+    \item Para evaluar el polinomio en muchos puntos, la forma de Newton suele ser más eficiente computacionalmente.
+\end{enumerate}
 
 \end{document}
