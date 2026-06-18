@@ -1,0 +1,597 @@
+\documentclass[10pt,respuestas,a4]{aleph-examen}
+%\documentclass[11pt,a4]{aleph-examen}
+
+% -- Paquetes adicionales 
+\usepackage{aleph-comandos}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{array}
+
+% -- Datos 
+\institucion{Facultad de Ciencias Exactas, Naturales y Ambientales}
+\carrera{Catálogo STEM}
+\asignatura{Métodos Numéricos}
+\tema{Examen}
+\autor{Mario Cueva - Andrés Merino}
+\fecha{Periodo 2026-1}
+
+\logouno[0.18\textwidth]{Logos/logoPUCE_04_ac}
+\definecolor{colortext}{HTML}{1957d1}
+\definecolor{colordef}{HTML}{1957d1}
+\fuente{montserrat}
+
+\begin{document}
+
+\encabezado
+
+\section*{Indicaciones}
+\begin{itemize}
+    \item El examen tiene una duración de \textbf{90 minutos}.
+    \item Se permite únicamente el uso de \textbf{calculadora científica}, lápiz y papel.
+    \item Justifique todos los procedimientos. Las respuestas sin desarrollo tendrán puntaje parcial limitado.
+    \item Redondee los resultados finales a \textbf{cuatro cifras decimales}, salvo que se indique lo contrario.
+    \item En los métodos iterativos, presente las iteraciones en tablas ordenadas.
+    \item En los ejercicios de integración y diferenciación, complete las tablas cuando sea necesario.
+\end{itemize}
+
+\section*{Examen}
+
+\begin{preguntas}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Considere el siguiente sistema lineal: \puntaje{8}
+\[
+\begin{cases}
+5x+y=12,\\
+x+4y=10.
+\end{cases}
+\]
+
+Aplique \textbf{tres iteraciones} de los métodos de \textbf{Jacobi} y \textbf{Gauss-Seidel}, partiendo de:
+\[
+(x^{(0)},y^{(0)})=(0,0).
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Despeje las ecuaciones para aplicar ambos métodos.
+    \item Complete la tabla para el método de Jacobi.
+    \item Complete la tabla para el método de Gauss-Seidel.
+    \item Compare brevemente los resultados obtenidos.
+\end{enumerate}
+
+\[
+x=\underline{\hspace{4cm}}, 
+\qquad 
+y=\underline{\hspace{4cm}}
+\]
+
+\begin{center}
+\textbf{Método de Jacobi}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c}
+\toprule
+$k$ & $x^{(k)}$ & $y^{(k)}$ \\
+\midrule
+0 & 0.0000 & 0.0000 \\
+1 &  &  \\
+2 &  &  \\
+3 &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\textbf{Método de Gauss-Seidel}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c}
+\toprule
+$k$ & $x^{(k)}$ & $y^{(k)}$ \\
+\midrule
+0 & 0.0000 & 0.0000 \\
+1 &  &  \\
+2 &  &  \\
+3 &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+
+Comparación:
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Construya el polinomio interpolante cuadrático de Newton para los puntos: \puntaje{6}
+\[
+(0,2), \qquad (1,5), \qquad (3,17).
+\]
+
+Luego estime el valor de la función en:
+\[
+x=2.
+\]
+
+Complete la tabla de diferencias divididas:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c|c|c}
+\toprule
+$i$ & $x_i$ & $f(x_i)$ & Diferencias divididas \\
+\midrule
+0 & 0 & 2 &  \\
+1 & 1 & 5 &  \\
+2 & 3 & 17 &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Escriba el polinomio de Newton:
+
+\[
+P_2(x)=\underline{\hspace{10cm}}
+\]
+
+Evalúe:
+
+\[
+P_2(2)=\underline{\hspace{5cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Ajuste una recta de regresión lineal de la forma: \puntaje{6}
+\[
+y=a_0+a_1x
+\]
+para los siguientes datos:
+
+\[
+\begin{array}{c|ccccc}
+x_i & 1 & 2 & 3 & 4 & 5 \\
+\hline
+y_i & 3 & 4 & 6 & 8 & 9
+\end{array}
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Complete la tabla de cálculo.
+    \item Determine los coeficientes $a_0$ y $a_1$.
+    \item Escriba el modelo ajustado.
+    \item Estime el valor de $y$ cuando $x=6$.
+\end{enumerate}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c|c}
+\toprule
+$x_i$ & $y_i$ & $x_i^2$ & $x_iy_i$ \\
+\midrule
+1 & 3 &  &  \\
+2 & 4 &  &  \\
+3 & 6 &  &  \\
+4 & 8 &  &  \\
+5 & 9 &  &  \\
+\midrule
+$\sum$ &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+a_1=\underline{\hspace{5cm}}, 
+\qquad
+a_0=\underline{\hspace{5cm}}
+\]
+
+Modelo:
+
+\[
+y=\underline{\hspace{7cm}}
+\]
+
+Estimación:
+
+\[
+y(6)=\underline{\hspace{5cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Para los datos: \puntaje{6}
+\[
+\begin{array}{c|cccc}
+x_i & 0 & 1 & 2 & 3 \\
+\hline
+y_i & 2 & 3 & 6 & 11
+\end{array}
+\]
+
+ajuste un modelo cuadrático de la forma:
+\[
+y=a_0+a_1x+a_2x^2
+\]
+utilizando la forma matricial de mínimos cuadrados.
+
+\begin{enumerate}[label=\alph*)]
+    \item Escriba la matriz de diseño $A$.
+    \item Escriba el vector $\mathbf{y}$.
+    \item Plantee el sistema normal $A^TA\mathbf{a}=A^T\mathbf{y}$.
+    \item Determine los coeficientes del modelo.
+\end{enumerate}
+
+\[
+A=
+\begin{pmatrix}
+ &  &  \\
+ &  &  \\
+ &  &  \\
+ &  & 
+\end{pmatrix},
+\qquad
+\mathbf{y}=
+\begin{pmatrix}
+\\
+\\
+\\
+\end{pmatrix}
+\]
+
+\[
+A^TA=
+\begin{pmatrix}
+ &  &  \\
+ &  &  \\
+ &  & 
+\end{pmatrix},
+\qquad
+A^T\mathbf{y}=
+\begin{pmatrix}
+\\
+\\
+\end{pmatrix}
+\]
+
+Sistema normal:
+
+\[
+\begin{pmatrix}
+ &  &  \\
+ &  &  \\
+ &  & 
+\end{pmatrix}
+\begin{pmatrix}
+a_0\\
+a_1\\
+a_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+\\
+\\
+\end{pmatrix}
+\]
+
+Modelo ajustado:
+
+\[
+y=\underline{\hspace{8cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Utilice diferenciación numérica para aproximar $f'(2)$ de la función: \puntaje{6}
+\[
+f(x)=\sqrt{x}
+\]
+con $h=0.1$, aplicando:
+
+\begin{enumerate}[label=\alph*)]
+    \item Diferencia hacia adelante.
+    \item Diferencia hacia atrás.
+    \item Diferencia centrada.
+    \item Compare brevemente los resultados con el valor exacto:
+    \[
+    f'(2)=\frac{1}{2\sqrt{2}}.
+    \]
+\end{enumerate}
+
+Complete la tabla:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x$ & $f(x)=\sqrt{x}$ \\
+\midrule
+1.9 &  \\
+2.0 &  \\
+2.1 &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Diferencia hacia adelante:
+
+\[
+f'(2)\approx \underline{\hspace{6cm}}
+\]
+
+Diferencia hacia atrás:
+
+\[
+f'(2)\approx \underline{\hspace{6cm}}
+\]
+
+Diferencia centrada:
+
+\[
+f'(2)\approx \underline{\hspace{6cm}}
+\]
+
+Comparación:
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Aproxime la integral: \puntaje{6}
+\[
+\int_0^2 (2x^2+1)\,dx
+\]
+mediante la \textbf{regla del trapecio compuesta} con $n=4$ subintervalos.
+
+Luego calcule el error absoluto, considerando que el valor exacto de la integral es:
+\[
+\frac{22}{3}.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el valor de $h$.
+    \item Complete la tabla de valores.
+    \item Aplique la fórmula del trapecio compuesto.
+    \item Calcule el error absoluto.
+\end{enumerate}
+
+\[
+h=\underline{\hspace{5cm}}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x_i$ & $f(x_i)=2x_i^2+1$ \\
+\midrule
+0.0 &  \\
+0.5 &  \\
+1.0 &  \\
+1.5 &  \\
+2.0 &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Aplicación de la fórmula:
+
+\[
+\int_0^2 (2x^2+1)\,dx
+\approx
+\underline{\hspace{8cm}}
+\]
+
+Error absoluto:
+
+\[
+E_a=\underline{\hspace{6cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Aproxime la integral: \puntaje{6}
+\[
+\int_0^2 (x^3+2x+1)\,dx
+\]
+mediante la \textbf{regla de Simpson $1/3$ simple}.
+
+\begin{enumerate}[label=\alph*)]
+    \item Identifique los valores de $a$, $b$ y el punto medio $m$.
+    \item Evalúe la función en los tres puntos necesarios.
+    \item Aplique la fórmula de Simpson $1/3$ simple.
+    \item Indique si el resultado puede ser exacto para este tipo de función y explique brevemente.
+\end{enumerate}
+
+\[
+a=\underline{\hspace{3cm}},
+\qquad
+b=\underline{\hspace{3cm}},
+\qquad
+m=\underline{\hspace{3cm}}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x$ & $f(x)=x^3+2x+1$ \\
+\midrule
+$a=$ &  \\
+$m=$ &  \\
+$b=$ &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Resultado:
+
+\[
+\int_0^2 (x^3+2x+1)\,dx
+\approx
+\underline{\hspace{7cm}}
+\]
+
+Explicación:
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Aproxime la integral: \puntaje{6}
+\[
+\int_0^1 e^x\,dx
+\]
+mediante la \textbf{regla de Simpson $1/3$ compuesta} con $n=4$ subintervalos.
+
+Además, explique por qué en este método el número de subintervalos debe ser par.
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el valor de $h$.
+    \item Complete la tabla de valores.
+    \item Identifique los valores que se multiplican por $4$ y por $2$.
+    \item Aplique la fórmula de Simpson $1/3$ compuesta.
+    \item Explique por qué $n$ debe ser par.
+\end{enumerate}
+
+\[
+h=\underline{\hspace{5cm}}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c}
+\toprule
+$i$ & $x_i$ & $f(x_i)=e^{x_i}$ \\
+\midrule
+0 & 0.00 &  \\
+1 & 0.25 &  \\
+2 & 0.50 &  \\
+3 & 0.75 &  \\
+4 & 1.00 &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Valores con coeficiente $4$:
+
+\[
+\underline{\hspace{10cm}}
+\]
+
+Valores con coeficiente $2$:
+
+\[
+\underline{\hspace{10cm}}
+\]
+
+Resultado:
+
+\[
+\int_0^1 e^x\,dx
+\approx
+\underline{\hspace{7cm}}
+\]
+
+Explicación sobre $n$ par:
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Pregunta conceptual de integración numérica: \puntaje{3}
+
+Explique una diferencia entre la regla del trapecio compuesta y la regla de Simpson $1/3$ compuesta. Además, indique cuál de las dos suele dar una mejor aproximación cuando la función es suave y se usa el mismo número de subintervalos.
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 10
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Pregunta conceptual de métodos numéricos: \puntaje{3}
+
+Explique por qué el método de Gauss-Seidel puede converger más rápido que el método de Jacobi en algunos sistemas lineales.
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\end{preguntas}
+
+\end{document}
+

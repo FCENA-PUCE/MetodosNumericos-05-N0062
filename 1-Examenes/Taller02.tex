@@ -1,0 +1,1285 @@
+
+
+\documentclass[11pt,respuestas,a4]{aleph-examen}
+%\documentclass[10pt,a4]{aleph-examen}
+
+% -- Paquetes adicionales 
+\usepackage{aleph-comandos}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{amsmath}
+
+% -- Datos 
+\institucion{Facultad de Ciencias Exactas, Naturales y Ambientales}
+\carrera{Catálogo STEM}
+\asignatura{Métodos Numéricos}
+\tema{Examen}
+\autor{Mario Cueva - Andrés Merino}
+\fecha{Periodo 2026-1}
+
+\logouno[0.18\textwidth]{Logos/logoPUCE_04_ac}
+\definecolor{colortext}{HTML}{1957d1}
+\definecolor{colordef}{HTML}{1957d1}
+\fuente{montserrat}
+
+\begin{document}
+
+\encabezado
+
+\section*{Indicaciones}
+\begin{itemize}
+    \item El examen tiene una duración de \textbf{90 minutos}.
+    \item Se permite únicamente el uso de \textbf{calculadora científica}, lápiz y papel.
+    \item Justifique todos los procedimientos. Las respuestas sin desarrollo tendrán puntaje parcial limitado.
+    \item Redondee los resultados finales a \textbf{cuatro cifras decimales}, salvo que se indique lo contrario.
+    \item En los métodos iterativos, presente las iteraciones en tablas ordenadas.
+    \item En los ejercicios de integración y diferenciación, complete las tablas cuando sea necesario.
+\end{itemize}
+
+\section*{Examen}
+
+\begin{preguntas}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Considere el siguiente sistema lineal: \puntaje{8}
+\[
+\begin{cases}
+6x+y=14,\\
+x+5y=13.
+\end{cases}
+\]
+
+Aplique \textbf{tres iteraciones} de los métodos de \textbf{Jacobi} y \textbf{Gauss-Seidel}, partiendo de:
+\[
+(x^{(0)},y^{(0)})=(0,0).
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Despeje las ecuaciones para aplicar ambos métodos.
+    \item Complete la tabla para el método de Jacobi.
+    \item Complete la tabla para el método de Gauss-Seidel.
+    \item Compare brevemente las aproximaciones obtenidas.
+\end{enumerate}
+
+\[
+x=\underline{\hspace{4cm}}, 
+\qquad 
+y=\underline{\hspace{4cm}}
+\]
+
+\begin{center}
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Método de Jacobi}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c}
+\toprule
+$k$ & $x^{(k)}$ & $y^{(k)}$ \\
+\midrule
+0 & 0.0000 & 0.0000 \\
+1 &  &  \\
+2 &  &  \\
+3 &  &  \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\hfill
+\begin{minipage}{0.47\textwidth}
+\centering
+\textbf{Método de Gauss-Seidel}
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c}
+\toprule
+$k$ & $x^{(k)}$ & $y^{(k)}$ \\
+\midrule
+0 & 0.0000 & 0.0000 \\
+1 &  &  \\
+2 &  &  \\
+3 &  &  \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+Comparación:
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\begin{respuesta}
+Primero despejamos cada variable:
+\[
+x=\frac{14-y}{6},
+\qquad
+y=\frac{13-x}{5}.
+\]
+
+\textbf{Método de Jacobi.} En Jacobi se usan los valores de la iteración anterior:
+\[
+x^{(k+1)}=\frac{14-y^{(k)}}{6},
+\qquad
+y^{(k+1)}=\frac{13-x^{(k)}}{5}.
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c}
+\toprule
+$k$ & $x^{(k)}$ & $y^{(k)}$ \\
+\midrule
+0 & 0.0000 & 0.0000 \\
+1 & 2.3333 & 2.6000 \\
+2 & 1.9000 & 2.1333 \\
+3 & 1.9778 & 2.2200 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Método de Gauss-Seidel.} En Gauss-Seidel se usan inmediatamente los valores actualizados:
+\[
+x^{(k+1)}=\frac{14-y^{(k)}}{6},
+\qquad
+y^{(k+1)}=\frac{13-x^{(k+1)}}{5}.
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{c|c|c}
+\toprule
+$k$ & $x^{(k)}$ & $y^{(k)}$ \\
+\midrule
+0 & 0.0000 & 0.0000 \\
+1 & 2.3333 & 2.1333 \\
+2 & 1.9778 & 2.2044 \\
+3 & 1.9659 & 2.2068 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Por tanto, después de tres iteraciones:
+\[
+\boxed{\text{Jacobi: }(x,y)\approx(1.9778,2.2200)}
+\]
+\[
+\boxed{\text{Gauss-Seidel: }(x,y)\approx(1.9659,2.2068)}
+\]
+
+En este caso, Gauss-Seidel se acerca más rápido a la solución porque actualiza cada variable dentro de la misma iteración.
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Construya el polinomio interpolante cuadrático de Newton para los puntos: \puntaje{6}
+\[
+(0,2),\qquad (1,3),\qquad (3,23).
+\]
+
+Luego estime el valor de la función en:
+\[
+x=2.
+\]
+
+Complete la tabla de diferencias divididas:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{c|c|c|c}
+\toprule
+$i$ & $x_i$ & $f(x_i)$ & Diferencias divididas \\
+\midrule
+0 & 0 & 2 &  \\
+1 & 1 & 3 &  \\
+2 & 3 & 23 &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Escriba el polinomio de Newton:
+
+\[
+P_2(x)=\underline{\hspace{10cm}}
+\]
+
+Evalúe:
+
+\[
+P_2(2)=\underline{\hspace{5cm}}
+\]
+
+\begin{respuesta}
+Sean:
+\[
+x_0=0,\quad f_0=2,
+\qquad
+x_1=1,\quad f_1=3,
+\qquad
+x_2=3,\quad f_2=23.
+\]
+
+Las diferencias divididas de primer orden son:
+\[
+f[x_0,x_1]=\frac{3-2}{1-0}=1,
+\]
+\[
+f[x_1,x_2]=\frac{23-3}{3-1}=10.
+\]
+
+La diferencia dividida de segundo orden es:
+\[
+f[x_0,x_1,x_2]=\frac{10-1}{3-0}=3.
+\]
+
+Por tanto, el polinomio de Newton es:
+\[
+P_2(x)=2+1(x-0)+3(x-0)(x-1).
+\]
+
+Simplificando:
+\[
+P_2(x)=2+x+3x(x-1).
+\]
+
+\[
+P_2(x)=2+x+3x^2-3x.
+\]
+
+\[
+P_2(x)=3x^2-2x+2.
+\]
+
+Ahora evaluamos en $x=2$:
+\[
+P_2(2)=3(2)^2-2(2)+2.
+\]
+
+\[
+P_2(2)=12-4+2=10.
+\]
+
+Por lo tanto:
+\[
+\boxed{P_2(x)=3x^2-2x+2}
+\]
+\[
+\boxed{P_2(2)=10.0000}
+\]
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Ajuste una recta de regresión lineal de la forma: \puntaje{6}
+\[
+y=a_0+a_1x
+\]
+para los siguientes datos:
+
+\[
+\begin{array}{c|ccccc}
+x_i & 1 & 2 & 3 & 4 & 5 \\
+\hline
+y_i & 2 & 5 & 7 & 10 & 11
+\end{array}
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Complete la tabla de cálculo.
+    \item Determine los coeficientes $a_0$ y $a_1$.
+    \item Escriba el modelo ajustado.
+    \item Estime el valor de $y$ cuando $x=6$.
+\end{enumerate}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c|c}
+\toprule
+$x_i$ & $y_i$ & $x_i^2$ & $x_iy_i$ \\
+\midrule
+1 & 2 &  &  \\
+2 & 5 &  &  \\
+3 & 7 &  &  \\
+4 & 10 &  &  \\
+5 & 11 &  &  \\
+\midrule
+$\sum$ &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+a_1=\underline{\hspace{5cm}}, 
+\qquad
+a_0=\underline{\hspace{5cm}}
+\]
+
+Modelo:
+\[
+y=\underline{\hspace{7cm}}
+\]
+
+Estimación:
+\[
+y(6)=\underline{\hspace{5cm}}
+\]
+
+\begin{respuesta}
+Construimos la tabla de cálculo:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c|c}
+\toprule
+$x_i$ & $y_i$ & $x_i^2$ & $x_iy_i$ \\
+\midrule
+1 & 2 & 1 & 2 \\
+2 & 5 & 4 & 10 \\
+3 & 7 & 9 & 21 \\
+4 & 10 & 16 & 40 \\
+5 & 11 & 25 & 55 \\
+\midrule
+15 & 35 & 55 & 128 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Por tanto:
+\[
+n=5,
+\qquad
+\sum x_i=15,
+\qquad
+\sum y_i=35,
+\]
+\[
+\sum x_i^2=55,
+\qquad
+\sum x_iy_i=128.
+\]
+
+La pendiente se calcula con:
+\[
+a_1=\frac{n\sum x_iy_i-\sum x_i\sum y_i}{n\sum x_i^2-(\sum x_i)^2}.
+\]
+
+Sustituyendo:
+\[
+a_1=\frac{5(128)-15(35)}{5(55)-15^2}.
+\]
+
+\[
+a_1=\frac{640-525}{275-225}
+=\frac{115}{50}=2.3.
+\]
+
+Además:
+\[
+\bar{x}=\frac{15}{5}=3,
+\qquad
+\bar{y}=\frac{35}{5}=7.
+\]
+
+Entonces:
+\[
+a_0=\bar{y}-a_1\bar{x}.
+\]
+
+\[
+a_0=7-2.3(3)=7-6.9=0.1.
+\]
+
+Por tanto, el modelo ajustado es:
+\[
+\boxed{y=0.1+2.3x}.
+\]
+
+Para $x=6$:
+\[
+y=0.1+2.3(6)=0.1+13.8=13.9.
+\]
+
+Por lo tanto:
+\[
+\boxed{y(6)\approx 13.9000}.
+\]
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Para los datos: \puntaje{6}
+\[
+\begin{array}{c|cccc}
+x_i & 0 & 1 & 2 & 3 \\
+\hline
+y_i & 2 & 4 & 9 & 17
+\end{array}
+\]
+
+ajuste un modelo cuadrático de la forma:
+\[
+y=a_0+a_1x+a_2x^2
+\]
+utilizando la forma matricial de mínimos cuadrados.
+
+\begin{enumerate}[label=\alph*)]
+    \item Escriba la matriz de diseño $A$.
+    \item Escriba el vector $\mathbf{y}$.
+    \item Plantee el sistema normal $A^TA\mathbf{a}=A^T\mathbf{y}$.
+    \item Determine los coeficientes del modelo.
+\end{enumerate}
+
+\[
+A=
+\begin{pmatrix}
+\hspace{2.2cm} . & \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm}
+\end{pmatrix},
+\qquad
+\mathbf{y}=
+\begin{pmatrix}
+\hspace{1.2cm} .\\[0.4cm]
+\hspace{1.2cm}\\[0.4cm]
+\hspace{1.2cm}\\[0.4cm]
+\hspace{1.2cm}
+\end{pmatrix}
+\]
+
+\[
+A^TA=
+\begin{pmatrix}
+\hspace{2.2cm} .& \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm}
+\end{pmatrix},
+\qquad
+A^T\mathbf{y}=
+\begin{pmatrix}
+\hspace{1.2cm}.\\[0.4cm]
+\hspace{1.2cm}\\[0.4cm]
+\hspace{1.2cm}
+\end{pmatrix}
+\]
+
+Sistema normal:
+
+\[
+\begin{pmatrix}
+\hspace{2.2cm} .& \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm} \\[0.4cm]
+\hspace{1.2cm} & \hspace{1.2cm} & \hspace{1.2cm}
+\end{pmatrix}
+\begin{pmatrix}
+a_0\\
+a_1\\
+a_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+\hspace{1.2cm}.\\[0.4cm]
+\hspace{1.2cm}\\[0.4cm]
+\hspace{1.2cm}
+\end{pmatrix}
+\]
+
+Modelo ajustado:
+
+\[
+y=\underline{\hspace{8cm}}
+\]
+
+\begin{respuesta}
+La matriz de diseño para el modelo cuadrático es:
+\[
+A=
+\begin{pmatrix}
+1 & 0 & 0 \\
+1 & 1 & 1 \\
+1 & 2 & 4 \\
+1 & 3 & 9
+\end{pmatrix},
+\qquad
+\mathbf{y}=
+\begin{pmatrix}
+2\\
+4\\
+9\\
+17
+\end{pmatrix}.
+\]
+
+El sistema normal es:
+\[
+A^TA\mathbf{a}=A^T\mathbf{y}.
+\]
+
+Calculamos:
+\[
+A^TA=
+\begin{pmatrix}
+4 & 6 & 14 \\
+6 & 14 & 36 \\
+14 & 36 & 98
+\end{pmatrix}.
+\]
+
+Además:
+\[
+A^T\mathbf{y}=
+\begin{pmatrix}
+2+4+9+17\\
+0(2)+1(4)+2(9)+3(17)\\
+0^2(2)+1^2(4)+2^2(9)+3^2(17)
+\end{pmatrix}.
+\]
+
+\[
+A^T\mathbf{y}=
+\begin{pmatrix}
+32\\
+73\\
+193
+\end{pmatrix}.
+\]
+
+Por tanto, el sistema normal queda:
+\[
+\begin{pmatrix}
+4 & 6 & 14 \\
+6 & 14 & 36 \\
+14 & 36 & 98
+\end{pmatrix}
+\begin{pmatrix}
+a_0\\
+a_1\\
+a_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+32\\
+73\\
+193
+\end{pmatrix}.
+\]
+
+Resolviendo el sistema se obtiene:
+\[
+a_0=2,
+\qquad
+a_1=0.5,
+\qquad
+a_2=1.5.
+\]
+
+Así, el modelo cuadrático ajustado es:
+\[
+\boxed{y=2+0.5x+1.5x^2}.
+\]
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Utilice diferenciación numérica para aproximar $f'(1)$ de la función: \puntaje{6}
+\[
+f(x)=\ln(x+2)
+\]
+con $h=0.2$, aplicando:
+
+\begin{enumerate}[label=\alph*)]
+    \item Diferencia hacia adelante.
+    \item Diferencia hacia atrás.
+    \item Diferencia centrada.
+    \item Compare brevemente los resultados con el valor exacto:
+    \[
+    f'(1)=\frac{1}{3}.
+    \]
+\end{enumerate}
+
+\begin{center}
+\begin{minipage}{0.45\textwidth}
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x$ & $f(x)=\ln(x+2)$ \\
+\midrule
+0.8 &  \\
+1.0 &  \\
+1.2 &  \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\[
+f'(1)_{\text{adelante}}\approx \underline{\hspace{3cm}}
+\]
+\[
+f'(1)_{\text{atrás}}\approx \underline{\hspace{3cm}}
+\]
+\[
+f'(1)_{\text{centrada}}\approx \underline{\hspace{3cm}}
+\]
+\end{minipage}
+\end{center}
+
+Comparación:
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\begin{respuesta}
+Se tiene:
+\[
+f(x)=\ln(x+2),
+\qquad
+x=1,
+\qquad
+h=0.2.
+\]
+
+Calculamos los valores necesarios:
+\[
+f(0.8)=\ln(2.8)=1.0296,
+\]
+\[
+f(1)=\ln(3)=1.0986,
+\]
+\[
+f(1.2)=\ln(3.2)=1.1632.
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x$ & $f(x)=\ln(x+2)$ \\
+\midrule
+0.8 & 1.0296 \\
+1.0 & 1.0986 \\
+1.2 & 1.1632 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{a) Diferencia hacia adelante:}
+\[
+f'(1)\approx \frac{f(1.2)-f(1)}{0.2}.
+\]
+
+\[
+f'(1)\approx \frac{1.1632-1.0986}{0.2}
+=\frac{0.0646}{0.2}=0.3230.
+\]
+
+\textbf{b) Diferencia hacia atrás:}
+\[
+f'(1)\approx \frac{f(1)-f(0.8)}{0.2}.
+\]
+
+\[
+f'(1)\approx \frac{1.0986-1.0296}{0.2}
+=\frac{0.0690}{0.2}=0.3450.
+\]
+
+\textbf{c) Diferencia centrada:}
+\[
+f'(1)\approx \frac{f(1.2)-f(0.8)}{2(0.2)}.
+\]
+
+\[
+f'(1)\approx \frac{1.1632-1.0296}{0.4}
+=\frac{0.1336}{0.4}=0.3340.
+\]
+
+El valor exacto es:
+\[
+f'(1)=\frac{1}{3}=0.3333.
+\]
+
+Por lo tanto:
+\[
+\boxed{\text{Adelante: }0.3230}
+\]
+\[
+\boxed{\text{Atrás: }0.3450}
+\]
+\[
+\boxed{\text{Centrada: }0.3340}
+\]
+
+La diferencia centrada es la aproximación más cercana al valor exacto.
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Aproxime la integral: \puntaje{6}
+\[
+\int_0^2 (x^3+1)\,dx
+\]
+mediante la \textbf{regla del trapecio compuesta} con $n=4$ subintervalos, luego calcule el error absoluto.
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el valor de $h$.
+    \item Complete la tabla de valores.
+    \item Aplique la fórmula del trapecio compuesto.
+    \item Calcule el error absoluto.
+\end{enumerate}
+
+\[
+h=\underline{\hspace{5cm}}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x_i$ & $f(x_i)=x_i^3+1$ \\
+\midrule
+0.0 &  \\
+0.5 &  \\
+1.0 &  \\
+1.5 &  \\
+2.0 &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Aplicación de la fórmula:
+
+\[
+\int_0^2 (x^3+1)\,dx
+\approx
+\underline{\hspace{8cm}}
+\]
+
+Error absoluto:
+
+\[
+E_a=\underline{\hspace{6cm}}
+\]
+
+\begin{respuesta}
+Primero calculamos:
+\[
+h=\frac{b-a}{n}=\frac{2-0}{4}=0.5.
+\]
+
+Los nodos son:
+\[
+x_0=0,
+\quad
+x_1=0.5,
+\quad
+x_2=1,
+\quad
+x_3=1.5,
+\quad
+x_4=2.
+\]
+
+Evaluamos $f(x)=x^3+1$:
+\[
+\begin{array}{c|ccccc}
+x_i & 0 & 0.5 & 1 & 1.5 & 2 \\
+\hline
+f(x_i) & 1 & 1.125 & 2 & 4.375 & 9
+\end{array}
+\]
+
+La regla del trapecio compuesta es:
+\[
+\int_a^b f(x)\,dx
+\approx
+\frac{h}{2}
+\left[
+f(x_0)+2\sum_{i=1}^{n-1}f(x_i)+f(x_n)
+\right].
+\]
+
+Sustituyendo:
+\[
+\int_0^2 (x^3+1)\,dx
+\approx
+\frac{0.5}{2}
+\left[
+1+2(1.125+2+4.375)+9
+\right].
+\]
+
+\[
+=
+0.25
+\left[
+1+2(7.5)+9
+\right].
+\]
+
+\[
+=
+0.25(25)=6.25.
+\]
+
+El valor exacto es:
+\[
+6.
+\]
+
+El error absoluto es:
+\[
+E_a=|6-6.25|=0.25.
+\]
+
+Por lo tanto:
+\[
+\boxed{\int_0^2 (x^3+1)\,dx\approx 6.2500}
+\]
+\[
+\boxed{E_a=0.2500}.
+\]
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Aproxime la integral: \puntaje{6}
+\[
+\int_0^2 (x^3-2x+4)\,dx
+\]
+mediante la \textbf{regla de Simpson $1/3$ simple}.
+
+\begin{enumerate}[label=\alph*)]
+    \item Identifique los valores de $a$, $b$ y el punto medio $m$.
+    \item Evalúe la función en los tres puntos necesarios.
+    \item Aplique la fórmula de Simpson $1/3$ simple.
+    \item Indique si el resultado puede ser exacto para este tipo de función y explique brevemente.
+\end{enumerate}
+
+\[
+a=\underline{\hspace{3cm}},
+\qquad
+b=\underline{\hspace{3cm}},
+\qquad
+m=\underline{\hspace{3cm}}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c}
+\toprule
+$x$ & $f(x)=x^3-2x+4$ \\
+\midrule
+$a=$ &  \\
+$m=$ &  \\
+$b=$ &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Resultado:
+
+\[
+\int_0^2 (x^3-2x+4)\,dx
+\approx
+\underline{\hspace{7cm}}
+\]
+
+Explicación:
+
+\[
+\underline{\hspace{14cm}}
+\]
+\[
+\underline{\hspace{14cm}}
+\]
+
+\begin{respuesta}
+Para Simpson $1/3$ simple se usa:
+\[
+\int_a^b f(x)\,dx
+\approx
+\frac{b-a}{6}
+\left[
+f(a)+4f(m)+f(b)
+\right],
+\]
+donde:
+\[
+m=\frac{a+b}{2}.
+\]
+
+En este caso:
+\[
+a=0,
+\qquad
+b=2,
+\qquad
+m=\frac{0+2}{2}=1.
+\]
+
+La función es:
+\[
+f(x)=x^3-2x+4.
+\]
+
+Calculamos:
+\[
+f(0)=0^3-2(0)+4=4,
+\]
+\[
+f(1)=1^3-2(1)+4=3,
+\]
+\[
+f(2)=2^3-2(2)+4=8.
+\]
+
+Aplicando Simpson $1/3$ simple:
+\[
+\int_0^2 (x^3-2x+4)\,dx
+\approx
+\frac{2-0}{6}
+\left[
+4+4(3)+8
+\right].
+\]
+
+\[
+=
+\frac{2}{6}
+\left[
+4+12+8
+\right].
+\]
+
+\[
+=
+\frac{2}{6}(24)=8.
+\]
+
+Por tanto:
+\[
+\boxed{\int_0^2 (x^3-2x+4)\,dx\approx 8.0000}.
+\]
+
+En este caso, Simpson $1/3$ simple da el valor exacto porque la función es un polinomio de grado $3$.
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Aproxime la integral: \puntaje{8}
+\[
+\int_0^{\frac{\pi}{2}} \sin(x)\,dx
+\]
+mediante la \textbf{regla de Simpson $1/3$ compuesta} con $n=6$ subintervalos.
+
+Además, calcule el error absoluto, considerando que el valor exacto de la integral es:
+\[
+1.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el valor de $h$.
+    \item Complete la tabla de valores.
+    \item Identifique los valores que se multiplican por $4$ y por $2$.
+    \item Aplique la fórmula de Simpson $1/3$ compuesta.
+    \item Calcule el error absoluto.
+\end{enumerate}
+
+\[
+h=\underline{\hspace{5cm}}
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{c|c|c}
+\toprule
+$i$ & $x_i$ & $f(x_i)=\sin(x_i)$ \\
+\midrule
+0 & $0$ &  \\
+1 & $\frac{\pi}{12}$ &  \\
+2 & $\frac{\pi}{6}$ &  \\
+3 & $\frac{\pi}{4}$ &  \\
+4 & $\frac{\pi}{3}$ &  \\
+5 & $\frac{5\pi}{12}$ &  \\
+6 & $\frac{\pi}{2}$ &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Valores con coeficiente $4$: $
+\underline{\hspace{10cm}}
+$
+
+\vspace{1cm}
+Valores con coeficiente $2$: $
+\underline{\hspace{10cm}}
+$
+
+Resultado:
+
+\[
+\int_0^{\frac{\pi}{2}} \sin(x)\,dx
+\approx
+\underline{\hspace{7cm}}
+\]
+
+Error absoluto: $
+E_a=\underline{\hspace{6cm}}
+$
+
+\begin{respuesta}
+Primero calculamos:
+\[
+h=\frac{b-a}{n}
+=
+\frac{\frac{\pi}{2}-0}{6}
+=
+\frac{\pi}{12}.
+\]
+
+En forma decimal:
+\[
+h\approx 0.2618.
+\]
+
+Los nodos son:
+\[
+x_0=0,
+\quad
+x_1=\frac{\pi}{12},
+\quad
+x_2=\frac{\pi}{6},
+\quad
+x_3=\frac{\pi}{4},
+\quad
+x_4=\frac{\pi}{3},
+\quad
+x_5=\frac{5\pi}{12},
+\quad
+x_6=\frac{\pi}{2}.
+\]
+
+Evaluamos $f(x)=\sin(x)$:
+
+\[
+\begin{array}{c|c|c}
+i & x_i & f(x_i)=\sin(x_i) \\
+\hline
+0 & 0 & 0.0000 \\
+1 & \frac{\pi}{12} & 0.2588 \\
+2 & \frac{\pi}{6} & 0.5000 \\
+3 & \frac{\pi}{4} & 0.7071 \\
+4 & \frac{\pi}{3} & 0.8660 \\
+5 & \frac{5\pi}{12} & 0.9659 \\
+6 & \frac{\pi}{2} & 1.0000
+\end{array}
+\]
+
+La regla de Simpson $1/3$ compuesta es:
+\[
+\int_a^b f(x)\,dx
+\approx
+\frac{h}{3}
+\left[
+f(x_0)
++
+4\sum_{\substack{i=1\\i\text{ impar}}}^{n-1}f(x_i)
++
+2\sum_{\substack{i=2\\i\text{ par}}}^{n-2}f(x_i)
++
+f(x_n)
+\right].
+\]
+
+En este caso, los índices impares son:
+\[
+i=1,3,5.
+\]
+
+Por tanto, los valores que se multiplican por $4$ son:
+\[
+f(x_1)=0.2588,
+\qquad
+f(x_3)=0.7071,
+\qquad
+f(x_5)=0.9659.
+\]
+
+Los índices pares interiores son:
+\[
+i=2,4.
+\]
+
+Por tanto, los valores que se multiplican por $2$ son:
+\[
+f(x_2)=0.5000,
+\qquad
+f(x_4)=0.8660.
+\]
+
+Sustituyendo:
+\[
+\int_0^{\frac{\pi}{2}}\sin(x)\,dx
+\approx
+\frac{0.2618}{3}
+\left[
+0.0000
++
+4(0.2588+0.7071+0.9659)
++
+2(0.5000+0.8660)
++
+1.0000
+\right].
+\]
+
+\[
+\int_0^{\frac{\pi}{2}}\sin(x)\,dx
+\approx
+0.0873
+\left[
+4(1.9318)+2(1.3660)+1.0000
+\right].
+\]
+
+\[
+\int_0^{\frac{\pi}{2}}\sin(x)\,dx
+\approx
+0.0873
+\left[
+7.7272+2.7320+1.0000
+\right].
+\]
+
+\[
+\int_0^{\frac{\pi}{2}}\sin(x)\,dx
+\approx
+0.0873(11.4592).
+\]
+
+\[
+\int_0^{\frac{\pi}{2}}\sin(x)\,dx
+\approx
+1.0000.
+\]
+
+El valor exacto es:
+\[
+1.
+\]
+
+Entonces, el error absoluto es:
+\[
+E_a=|1-1.0000|=0.0000.
+\]
+
+Por tanto:
+\[
+\boxed{\int_0^{\frac{\pi}{2}}\sin(x)\,dx\approx 1.0000}
+\]
+\[
+\boxed{E_a\approx 0.0000}.
+\]
+
+El resultado es muy cercano al valor exacto porque Simpson $1/3$ compuesta suele dar buenas aproximaciones cuando la función es suave.
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 9
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Pregunta conceptual de integración numérica: \puntaje{3}
+
+Explique una diferencia entre la regla del trapecio compuesta y la regla de Simpson $1/3$ compuesta. Además, indique cuál de las dos suele dar una mejor aproximación cuando la función es suave y se usa el mismo número de subintervalos.
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\begin{respuesta}
+La regla del trapecio compuesta aproxima el área bajo la curva usando varios trapecios, es decir, aproxima la función con segmentos rectos en cada subintervalo.
+
+En cambio, la regla de Simpson $1/3$ compuesta aproxima la función mediante parábolas, agrupando los subintervalos de dos en dos.
+
+Cuando la función es suave y se usa un número adecuado de subintervalos, la regla de Simpson $1/3$ compuesta suele dar una mejor aproximación que la regla del trapecio compuesta, porque utiliza una aproximación cuadrática y no solo lineal.
+\end{respuesta}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pregunta 10
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\item
+Pregunta conceptual de métodos numéricos: \puntaje{3}
+
+Explique por qué el método de Gauss-Seidel puede converger más rápido que el método de Jacobi en algunos sistemas lineales.
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\[
+\underline{\hspace{14cm}}
+\]
+
+\begin{respuesta}
+El método de Jacobi calcula todos los valores nuevos usando únicamente los valores de la iteración anterior.
+
+En cambio, el método de Gauss-Seidel utiliza de inmediato los valores que ya fueron actualizados dentro de la misma iteración. Esto permite que la información nueva se incorpore más rápido al proceso de cálculo.
+
+Por esta razón, en algunos sistemas lineales, Gauss-Seidel puede acercarse a la solución en menos iteraciones que Jacobi.
+\end{respuesta}
+
+\end{preguntas}
+
+\end{document}
+

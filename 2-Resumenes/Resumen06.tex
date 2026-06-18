@@ -6,7 +6,8 @@
 \usepackage{enumitem}
 \usepackage{aleph-comandos}
 \usepackage{booktabs}
-
+\input{codigo-python.tex}
+ 
 
 % -- Datos
 \institucion{Facultad de Ciencias Exactas, Naturales y Ambientales}
@@ -24,6 +25,7 @@
 
 % -- Comandos adicionales
 \setlist[enumerate]{label=\roman*.}
+\newcommand{\vect}[1]{\mathbf{#1}}
 
 
 \begin{document}
@@ -33,10 +35,481 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Integración numérica: regla de Simpson}
 
+\begin{defi}[Regla de Simpson $1/3$ simple]
+    La \textbf{regla de Simpson $1/3$ simple} aproxima la integral de una función $f$ en $[a,b]$ usando una parábola que interpola los puntos
+    \[
+        (a,f(a)),\qquad \left(\frac{a+b}{2},f\left(\frac{a+b}{2}\right)\right),\qquad (b,f(b)).
+    \]
+    Si $m=\dfrac{a+b}{2}$, entonces
+    \[
+        \int_a^b f(x)\,dx
+        \approx
+        \frac{b-a}{6}\left[f(a)+4f(m)+f(b)\right].
+    \]
+    Esta fórmula es exacta para polinomios de grado menor o igual que $3$.
+\end{defi}
+
+\begin{ejem}
+    Para aproximar
+    \[
+        \int_0^2 (x^2+1)\,dx
+    \]
+    mediante Simpson $1/3$ simple, se tiene $a=0$, $b=2$ y $m=1$. Entonces
+    \[
+        f(0)=1,\qquad f(1)=2,\qquad f(2)=5.
+    \]
+    Por tanto,
+    \[
+        \int_0^2 (x^2+1)\,dx
+        \approx
+        \frac{2}{6}\left[1+4(2)+5\right]
+        =
+        \frac{14}{3}.
+    \]
+    En este caso el resultado coincide con el valor exacto, pues $x^2+1$ es un polinomio de grado $2$.
+\end{ejem}
+
+\begin{defi}[Regla de Simpson $1/3$ compuesta]
+    La \textbf{regla de Simpson $1/3$ compuesta} divide $[a,b]$ en $n$ subintervalos de igual longitud
+    \[
+        h=\frac{b-a}{n},
+    \]
+    donde $n$ debe ser par. Si $x_i=a+ih$ para $i=0,1,\ldots,n$, entonces
+    \[
+        \int_a^b f(x)\,dx
+        \approx
+        \frac{h}{3}
+        \left[
+            f(x_0)
+            +4\sum_{\substack{i=1\\ i\text{ impar}}}^{n-1}f(x_i)
+            +2\sum_{\substack{i=2\\ i\text{ par}}}^{n-2}f(x_i)
+            +f(x_n)
+        \right].
+    \]
+\end{defi}
+
+\begin{advertencia}
+    En la regla de Simpson $1/3$ compuesta, el número de subintervalos debe ser par. Si se elige un $n$ impar, los puntos no pueden agruparse en pares de subintervalos para formar las parábolas.
+\end{advertencia}
+
+\begin{pscodigo}
+\begin{function}[H]
+\KwData{Una función $f$, extremos $a$ y $b$, número par de subintervalos $n$}
+\KwResult{Aproximación de $\displaystyle\int_a^b f(x)\,dx$}
+\SetKwFunction{simp}{Simpson}
+\Fn{\simp{$f,a,b,n$}}{
+    \If{$n$ no es par}{
+        \Return{``El número de subintervalos debe ser par''}
+    }
+    $h:=\dfrac{b-a}{n}$\;
+    $S:=f(a)+f(b)$\;
+    \For{$i:=1$ \KwTo $n-1$}{
+        \eIf{$i$ es impar}{
+            $S:=S+4\cdot f(a+i\cdot h)$\;
+        }{
+            $S:=S+2\cdot f(a+i\cdot h)$\;
+        }
+    }
+    \Return{$\dfrac{h}{3}\cdot S$}
+    }
+\end{function}
+\end{pscodigo}
+
+\begin{ejem}
+    Para aproximar
+    \[
+        \int_0^1 e^x\,dx
+    \]
+    con Simpson $1/3$ compuesta usando $n=4$, se tiene $h=0.25$ y los nodos $0,0.25,0.5,0.75,1$:
+    \[
+        \begin{array}{c|ccccc}
+            x_i & 0 & 0.25 & 0.5 & 0.75 & 1\\
+            \hline
+            e^{x_i} & 1.0000 & 1.2840 & 1.6487 & 2.1170 & 2.7183
+        \end{array}
+    \]
+    Entonces
+    \[
+        \int_0^1 e^x\,dx
+        \approx
+        \frac{0.25}{3}
+        \left[
+            1.0000+4(1.2840+2.1170)+2(1.6487)+2.7183
+        \right]
+        \approx
+        1.7183.
+    \]
+    El valor exacto es $e-1\approx 1.7183$, por lo que el error es muy pequeño.
+\end{ejem}
+
+\begin{defi}[Regla de Simpson $3/8$ simple]
+    La \textbf{regla de Simpson $3/8$ simple} aproxima la integral usando un polinomio cúbico que interpola cuatro puntos igualmente espaciados. Si
+    \[
+        h=\frac{b-a}{3},
+    \]
+    entonces
+    \[
+        \int_a^b f(x)\,dx
+        \approx
+        \frac{3h}{8}\left[f(x_0)+3f(x_1)+3f(x_2)+f(x_3)\right],
+    \]
+    donde $x_0=a$, $x_1=a+h$, $x_2=a+2h$ y $x_3=b$.
+\end{defi}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Errores de estimación de diferenciación e integración}
 
+\begin{defi}[Error de truncamiento]
+    El \textbf{error de truncamiento} aparece cuando se reemplaza un proceso exacto, como una derivada o una integral, por una fórmula aproximada que usa un número finito de términos o evaluaciones.
+\end{defi}
+
+En diferenciación numérica, las fórmulas de diferencias finitas se obtienen a partir de desarrollos de Taylor. Por ello, su error depende de potencias de $h$ y de derivadas de orden superior.
+
+\begin{center}
+\small
+\begin{tabular}{p{0.26\textwidth}p{0.42\textwidth}p{0.18\textwidth}}
+\toprule
+Fórmula & Aproximación & Error \\
+\midrule
+Diferencia hacia adelante & $\dfrac{f(x+h)-f(x)}{h}$ & $O(h)$ \\[4mm]
+Diferencia hacia atrás & $\dfrac{f(x)-f(x-h)}{h}$ & $O(h)$ \\[4mm]
+Diferencia centrada & $\dfrac{f(x+h)-f(x-h)}{2h}$ & $O(h^2)$ \\[4mm]
+Segunda derivada centrada & $\dfrac{f(x+h)-2f(x)+f(x-h)}{h^2}$ & $O(h^2)$ \\[2mm]
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{defi}[Error de integración numérica]
+    En integración numérica, el error depende de la longitud de los subintervalos y de la suavidad de la función. Para reglas compuestas, al disminuir $h$ se espera reducir el error, aunque con más evaluaciones de la función.
+\end{defi}
+
+\begin{center}
+\small
+\begin{tabular}{p{0.22\textwidth}p{0.46\textwidth}p{0.18\textwidth}}
+\toprule
+Método & Fórmula compuesta & Error global \\
+\midrule
+Trapecio & $\dfrac{h}{2}\left[f(x_0)+2\displaystyle\sum_{i=1}^{n-1}f(x_i)+f(x_n)\right]$ & $O(h^2)$ \\[6mm]
+Simpson $1/3$ & $\dfrac{h}{3}\left[f(x_0)+4\displaystyle\sum_{i\text{ impar}}f(x_i)+2\displaystyle\sum_{i\text{ par}}f(x_i)+f(x_n)\right]$ & $O(h^4)$ \\[7mm]
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{advertencia}
+    Un método de orden más alto suele ser más preciso cuando la función es suficientemente suave. Sin embargo, si los datos tienen ruido o si $h$ es demasiado pequeño, los errores de redondeo pueden afectar el resultado.
+\end{advertencia}
+
+
+\begin{ejem}
+    Para $f(x)=e^x$ en $x=1$ con $h=0.1$, la diferencia centrada da
+    \[
+        f'(1)\approx \frac{e^{1.1}-e^{0.9}}{0.2}
+        =
+        \frac{3.0042-2.4596}{0.2}
+        =
+        2.723.
+    \]
+    Como el valor exacto es $e\approx 2.718$, el error absoluto es aproximadamente
+    \[
+        |2.718-2.723|=0.005.
+    \]
+\end{ejem}
+
+\begin{ejem}
+    Para aproximar $\displaystyle\int_0^1 e^x\,dx$ con $n=4$, la regla del trapecio compuesta produce aproximadamente $1.7272$, mientras que Simpson $1/3$ compuesta produce aproximadamente $1.7183$. Como el valor exacto es
+    \[
+        e-1\approx 1.7183,
+    \]
+    Simpson obtiene un error menor en este caso.
+\end{ejem}
+
+\begin{defi}[Estimación por refinamiento]
+    Si se calcula una aproximación con paso $h$ y otra con paso $h/2$, se puede estimar el error comparando ambos resultados:
+    \[
+        E_{\text{aprox}}=|I_{h/2}-I_h|.
+    \]
+    Esta idea permite evaluar la estabilidad de una aproximación aun cuando no se conoce el valor exacto.
+\end{defi}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Optimización numérica}
+
+\begin{defi}[Problema de optimización]
+    Un problema de \textbf{optimización} busca encontrar un punto donde una función alcanza un valor mínimo o máximo. En una dimensión, se busca un valor $x^\ast$ que minimice o maximice $f(x)$. En varias variables, se busca un vector ${x}^\ast$ que optimice $f({x})$.
+\end{defi}
+
+\begin{defi}[Punto crítico]
+    Si $f$ es derivable, un \textbf{punto crítico} en una dimensión es un valor $x^\ast$ tal que
+    \[
+        f'(x^\ast)=0.
+    \]
+    En varias variables, un punto crítico satisface
+    \[
+        \nabla f({x}^\ast)={0}.
+    \]
+\end{defi}
+
+\subsection{Método de Newton para optimización en una dimensión}
+
+Para encontrar puntos críticos de $f$, se puede aplicar Newton-Raphson a la ecuación
+\[
+    f'(x)=0.
+\]
+Así, si $f''(x_i)\neq 0$, la iteración queda
+\[
+    x_{i+1}=x_i-\frac{f'(x_i)}{f''(x_i)}.
+\]
+
+\begin{defi}[Newton para puntos críticos]
+    El \textbf{método de Newton para optimización} aproxima un punto crítico de una función derivable dos veces mediante
+    \[
+        x_{i+1}=x_i-\frac{f'(x_i)}{f''(x_i)}.
+    \]
+    Si el método converge a $x^\ast$ y $f''(x^\ast)>0$, el punto es un mínimo local. Si $f''(x^\ast)<0$, es un máximo local.
+\end{defi}
+
+\begin{ejem}
+    Consideremos
+    \[
+        f(x)=x^2-4x+5.
+    \]
+    Entonces
+    \[
+        f'(x)=2x-4,\qquad f''(x)=2.
+    \]
+    Con $x_0=0$,
+    \[
+        x_1=0-\frac{-4}{2}=2.
+    \]
+    Como $f'(2)=0$ y $f''(2)>0$, el punto $x=2$ es un mínimo local.
+\end{ejem}
+
+
+\subsection{Gradiente y dirección de máximo crecimiento}
+
+\begin{defi}[Gradiente]
+    Para una función $f(x_1,x_2,\ldots,x_n)$, el \textbf{gradiente} es el vector
+    \[
+        \nabla f({x})
+        =
+        \begin{pmatrix}
+            \dfrac{\partial f}{\partial x_1}\\[2mm]
+            \dfrac{\partial f}{\partial x_2}\\
+            \vdots\\
+            \dfrac{\partial f}{\partial x_n}
+        \end{pmatrix}.
+    \]
+    El gradiente apunta en la dirección de máximo crecimiento local de la función.
+\end{defi}
+
+\begin{advertencia}
+    Si se desea minimizar una función, la dirección natural de avance no es $\nabla f({x})$, sino $-\nabla f({x})$, porque esta dirección produce el mayor descenso local.
+\end{advertencia}
+
+\subsection{Funciones convexas y matriz hessiana}
+
+\begin{defi}[Función convexa]
+    Una función $f$ es \textbf{convexa} si, para cualesquiera puntos ${x}$ y ${y}$ de su dominio y para todo $t\in[0,1]$, se cumple
+    \[
+        f(t{x}+(1-t){y})
+        \leq
+        tf({x})+(1-t)f({y}).
+    \]
+    En una función convexa, todo mínimo local es también un mínimo global.
+\end{defi}
+
+\begin{defi}[Matriz hessiana]
+    Si $f$ tiene derivadas parciales de segundo orden, su \textbf{matriz hessiana} es
+    \[
+        H_f({x})
+        =
+        \begin{pmatrix}
+            \dfrac{\partial^2 f}{\partial x_1^2} &
+            \dfrac{\partial^2 f}{\partial x_1\partial x_2} &
+            \cdots &
+            \dfrac{\partial^2 f}{\partial x_1\partial x_n}\\[3mm]
+            \dfrac{\partial^2 f}{\partial x_2\partial x_1} &
+            \dfrac{\partial^2 f}{\partial x_2^2} &
+            \cdots &
+            \dfrac{\partial^2 f}{\partial x_2\partial x_n}\\
+            \vdots & \vdots & \ddots & \vdots\\
+            \dfrac{\partial^2 f}{\partial x_n\partial x_1} &
+            \dfrac{\partial^2 f}{\partial x_n\partial x_2} &
+            \cdots &
+            \dfrac{\partial^2 f}{\partial x_n^2}
+        \end{pmatrix}.
+    \]
+    Si $H_f({x})$ es semidefinida positiva en una región convexa, entonces $f$ es convexa en esa región.
+\end{defi}
+
+\begin{ejem}
+    Para
+    \[
+        f(x,y)=x^2+y^2,
+    \]
+    se tiene
+    \[
+        \nabla f(x,y)=
+        \begin{pmatrix}
+            2x\\
+            2y
+        \end{pmatrix},
+        \qquad
+        H_f(x,y)=
+        \begin{pmatrix}
+            2 & 0\\
+            0 & 2
+        \end{pmatrix}.
+    \]
+    La hessiana es definida positiva, por lo que la función es convexa y su mínimo global ocurre en $(0,0)$.
+\end{ejem}
+
+\subsection{Método de descenso del gradiente}
+
+\begin{defi}[Descenso del gradiente]
+    El \textbf{método de descenso del gradiente} es un método iterativo para minimizar una función diferenciable. A partir de una aproximación inicial ${x}^{(0)}$, actualiza
+    \[
+        {x}^{(k+1)}
+        =
+        {x}^{(k)}
+        -
+        \alpha \nabla f\bigl({x}^{(k)}\bigr),
+    \]
+    donde $\alpha>0$ es el \textbf{tamaño de paso} o \textbf{learning rate}.
+\end{defi}
+
+\begin{pscodigo}
+\begin{function}[H]
+\KwData{Función $f$, gradiente $\nabla f$, aproximación inicial ${x}^{(0)}$, learning rate $\alpha$, tolerancia $\varepsilon$ y máximo de iteraciones $N$}
+\KwResult{Aproximación de un mínimo de $f$}
+\SetKwFunction{grad}{DescensoGradiente}
+\Fn{\grad{$f,\nabla f,{x}^{(0)},\alpha,\varepsilon,N$}}{
+    \For{$k:=1$ \KwTo $N$}{
+        ${x}^{(k)}:={x}^{(k-1)}-\alpha\nabla f({x}^{(k-1)})$\;
+        \If{$\left\|{x}^{(k)}-{x}^{(k-1)}\right\|<\varepsilon$}{
+            \Return{${x}^{(k)}$}
+        }
+    }
+    \Return{${x}^{(k)}$}
+    }
+\end{function}
+\end{pscodigo}
+
+\begin{advertencia}
+    Si $\alpha$ es demasiado grande, el método puede oscilar o divergir. Si $\alpha$ es demasiado pequeño, el método puede converger muy lentamente. Elegir un buen learning rate es una parte central del método.
+\end{advertencia}
+
+\begin{ejem}
+    Consideremos
+    \[
+        f(x,y)=x^2+y^2.
+    \]
+    Su gradiente es
+    \[
+        \nabla f(x,y)=
+        \begin{pmatrix}
+            2x\\
+            2y
+        \end{pmatrix}.
+    \]
+    Con punto inicial ${x}^{(0)}=(2,1)$ y $\alpha=0.25$, la primera iteración es
+    \[
+        {x}^{(1)}
+        =
+        \begin{pmatrix}
+            2\\
+            1
+        \end{pmatrix}
+        -
+        0.25
+        \begin{pmatrix}
+            4\\
+            2
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1\\
+            0.5
+        \end{pmatrix}.
+    \]
+    La siguiente iteración produce
+    \[
+        {x}^{(2)}
+        =
+        \begin{pmatrix}
+            0.5\\
+            0.25
+        \end{pmatrix}.
+    \]
+    Las aproximaciones se acercan al mínimo global $(0,0)$.
+\end{ejem}
+
+
+\subsection{Learning rate dinámico}
+
+\begin{defi}[Learning rate dinámico]
+    Un \textbf{learning rate dinámico} cambia el tamaño de paso durante las iteraciones. En lugar de usar un valor fijo $\alpha$, se usa una sucesión
+    \[
+        \alpha_0,\alpha_1,\alpha_2,\ldots
+    \]
+    y la actualización toma la forma
+    \[
+        {x}^{(k+1)}
+        =
+        {x}^{(k)}
+        -
+        \alpha_k \nabla f\bigl({x}^{(k)}\bigr).
+    \]
+    La idea usual es empezar con pasos relativamente grandes y reducirlos gradualmente para estabilizar la convergencia.
+\end{defi}
+
+Algunas estrategias comunes son:
+\begin{enumerate}
+    \item \textbf{Decaimiento constante:} reducir $\alpha$ cada cierto número de iteraciones.
+    \item \textbf{Decaimiento proporcional:} usar una regla como $\alpha_k=\dfrac{\alpha_0}{1+\lambda k}$.
+    \item \textbf{Búsqueda de línea:} elegir $\alpha_k$ probando qué tamaño de paso reduce mejor la función objetivo.
+\end{enumerate}
+
+\begin{advertencia}
+    Un learning rate dinámico no garantiza convergencia por sí solo. Su utilidad depende de la función, de la escala de las variables y de la forma en que se ajusta $\alpha_k$ durante el proceso.
+\end{advertencia}
+
+\begin{defi}[Métodos adaptativos]
+    Los \textbf{métodos adaptativos} ajustan el tamaño de paso de forma diferente para cada variable, usando información acumulada de gradientes anteriores. Entre los más conocidos están AdaGrad, RMSProp y Adam.
+\end{defi}
+
+\begin{center}
+\small
+\begin{tabular}{p{0.22\textwidth}p{0.62\textwidth}}
+\toprule
+Método & Idea principal \\
+\midrule
+Momentum & Acumula parte de la dirección anterior para suavizar el movimiento \\
+AdaGrad & Reduce más el paso en variables con gradientes acumulados grandes \\
+RMSProp & Usa un promedio móvil de gradientes cuadrados para ajustar el paso \\
+Adam & Combina ideas de momentum y RMSProp \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{ejem}
+    Si se usa un learning rate dinámico de la forma
+    \[
+        \alpha_k=\frac{0.1}{1+0.05k},
+    \]
+    entonces
+    \[
+        \alpha_0=0.1,\qquad
+        \alpha_{10}=\frac{0.1}{1.5}\approx 0.0667,\qquad
+        \alpha_{100}=\frac{0.1}{6}\approx 0.0167.
+    \]
+    Al inicio el método permite pasos más grandes; luego los pasos se reducen para mejorar la estabilidad cerca del mínimo.
+\end{ejem}
+
+
+
+
+
 
 \end{document}

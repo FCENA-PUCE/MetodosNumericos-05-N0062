@@ -24,6 +24,7 @@
 
 % -- Comandos adicionales
 \setlist[enumerate]{label=\roman*.}
+\newcommand{\vect}[1]{\mathbf{#1}}
 
 
 \begin{document}
@@ -33,13 +34,230 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Optimización numérica: búsqueda exhaustiva y sección áurea}
 
+\begin{defi}[Búsqueda exhaustiva]
+    La \textbf{búsqueda exhaustiva} aproxima el mínimo de una función $f$ en un intervalo $[a,b]$ evaluando $f$ en $n+1$ puntos equidistantes
+    \[
+        x_i = a + i\,\frac{b-a}{n}, \qquad i=0,1,\ldots,n,
+    \]
+    y devolviendo el punto $x^*=x_k$ tal que $f(x_k)\leq f(x_i)$ para todo $i$.
+\end{defi}
+
+\begin{ejem}
+    Para minimizar $f(x)=x^2-4x+5$ en $[0,4]$ con $n=4$ subintervalos, los nodos y valores son:
+    \[
+        \begin{array}{c|ccccc}
+            x_i & 0 & 1 & 2 & 3 & 4\\
+            \hline
+            f(x_i) & 5 & 2 & 1 & 2 & 5
+        \end{array}
+    \]
+    El menor valor es $f(2)=1$, por lo que la búsqueda devuelve $x^*=2$, que coincide con el mínimo exacto.
+\end{ejem}
+
+\begin{defi}[Método de la sección áurea]
+    El \textbf{método de la sección áurea} reduce iterativamente el intervalo $[a,b]$ que encierra un mínimo. En cada iteración se evalúa $f$ en los dos puntos interiores
+    \[
+        x_1 = b-\varphi(b-a),
+        \qquad
+        x_2 = a+\varphi(b-a),
+    \]
+    donde $\varphi=\dfrac{\sqrt{5}-1}{2}\approx 0.618$ es la razón áurea. Luego:
+    \begin{enumerate}
+        \item Si $f(x_1)<f(x_2)$, el nuevo intervalo es $[a,\,x_2]$.
+        \item Si $f(x_1)\geq f(x_2)$, el nuevo intervalo es $[x_1,\,b]$.
+    \end{enumerate}
+    En cada iteración el intervalo se reduce por el factor $\varphi$, por lo que el método converge a una tasa constante.
+\end{defi}
+
+\begin{ejem}
+    Para minimizar $f(x)=x^2-2x+3$ en $[0,3]$ (mínimo exacto en $x=1$):
+    \medskip
+
+    \textbf{Iteración 1:} Con $a=0$, $b=3$ y $\varphi\approx 0.618$,
+    \[
+        x_1=3-0.618(3)=1.146,\qquad x_2=0+0.618(3)=1.854.
+    \]
+    \[
+        f(1.146)=(1.146)^2-2(1.146)+3=2.021,\qquad f(1.854)=(1.854)^2-2(1.854)+3=2.729.
+    \]
+    Como $f(x_1)<f(x_2)$, el nuevo intervalo es $[0,\,1.854]$.
+    \medskip
+
+    \textbf{Iteración 2:} Con $a=0$, $b=1.854$,
+    \[
+        x_1=1.854-0.618(1.854)=0.708,\qquad x_2=0+0.618(1.854)=1.146.
+    \]
+    \[
+        f(0.708)=(0.708)^2-2(0.708)+3=2.085,\qquad f(1.146)=2.021.
+    \]
+    Como $f(x_2)<f(x_1)$, el nuevo intervalo es $[0.708,\,1.854]$. El método continúa reduciendo el intervalo hacia $x=1$.
+\end{ejem}
+
+\begin{advertencia}
+    La búsqueda exhaustiva requiere muchas evaluaciones de $f$ para lograr buena precisión. La sección áurea es más eficiente: con cada par de evaluaciones reduce el intervalo por el factor $\varphi\approx 0.618$, independientemente de la función.
+\end{advertencia}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Optimización numérica: Método de Newton y Brent}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Descenso del gradiente I}
+\begin{defi}[Método de Newton para optimización en varias variables]
+    El \textbf{método de Newton para optimización} en $\mathbb{R}^n$ resuelve iterativamente $\nabla f({x})={0}$. A partir de una aproximación ${x}^{(k)}$, la actualización es
+    \[
+        {x}^{(k+1)}
+        =
+        {x}^{(k)}
+        -
+        \bigl[H_f\bigl({x}^{(k)}\bigr)\bigr]^{-1}
+        \nabla f\bigl({x}^{(k)}\bigr),
+    \]
+    donde $H_f({x}^{(k)})$ es la matriz hessiana evaluada en ${x}^{(k)}$. Si el método converge a ${x}^*$ y $H_f({x}^*)$ es definida positiva, entonces ${x}^*$ es un mínimo local.
+\end{defi}
+
+\begin{ejem}
+    Para minimizar $f(x,y)=x^2+2y^2-2xy$, se tienen
+    \[
+        \nabla f(x,y)=
+        \begin{pmatrix}
+            2x-2y\\
+            4y-2x
+        \end{pmatrix},
+        \qquad
+        H_f=
+        \begin{pmatrix}
+            2 & -2\\
+            -2 & 4
+        \end{pmatrix},
+        \qquad
+        H_f^{-1}=
+        \begin{pmatrix}
+            1 & \tfrac{1}{2}\\[1mm]
+            \tfrac{1}{2} & \tfrac{1}{2}
+        \end{pmatrix}.
+    \]
+    Partiendo de ${x}^{(0)}=(2,1)^T$, se calcula $\nabla f(2,1)=(2,0)^T$ y
+    \[
+        {x}^{(1)}
+        =
+        \begin{pmatrix}
+            2\\1
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            1 & \tfrac{1}{2}\\[1mm]
+            \tfrac{1}{2} & \tfrac{1}{2}
+        \end{pmatrix}
+        \begin{pmatrix}
+            2\\0
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            2\\1
+        \end{pmatrix}
+        -
+        \begin{pmatrix}
+            2\\1
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            0\\0
+        \end{pmatrix}.
+    \]
+    El método converge en una sola iteración al mínimo global $(0,0)$ (resultado exacto porque $f$ es cuadrática).
+\end{ejem}
+
+\begin{defi}[Método de Brent]
+    El \textbf{método de Brent} para minimización en una dimensión combina la robustez de la sección áurea con la rapidez de la \textbf{interpolación parabólica}. Dados tres puntos $x_1<x_2<x_3$ con $f(x_2)<f(x_1)$ y $f(x_2)<f(x_3)$, el mínimo de la parábola que los interpola es
+    \[
+        x^*
+        =
+        x_2
+        -
+        \frac{1}{2}
+        \cdot
+        \frac{(x_2-x_1)^2\bigl[f(x_2)-f(x_3)\bigr]-(x_2-x_3)^2\bigl[f(x_2)-f(x_1)\bigr]}{(x_2-x_1)\bigl[f(x_2)-f(x_3)\bigr]-(x_2-x_3)\bigl[f(x_2)-f(x_1)\bigr]}.
+    \]
+    Si $x^*$ cae dentro del intervalo y reduce suficientemente el dominio, se acepta; en caso contrario se usa un paso de sección áurea como respaldo.
+\end{defi}
+
+\begin{ejem}
+    Para minimizar $f(x)=x^2$ en $[-1,2]$, se eligen los puntos iniciales $x_1=-1$, $x_2=0.5$, $x_3=2$, con valores $f(-1)=1$, $f(0.5)=0.25$, $f(2)=4$. Aplicando la fórmula:
+    \[
+        x^*
+        =
+        % 0.5
+        % -
+        % \frac{1}{2}
+        % \cdot
+        % \frac{(1.5)^2(-3.75)-(−1.5)^2(-0.75)}{(1.5)(-3.75)-(-1.5)(-0.75)}
+        =
+        0.5
+        -
+        \frac{1}{2}
+        \cdot
+        \frac{-6.75}{-6.75}
+        =
+        0.
+    \]
+    El método de Brent obtiene el mínimo exacto $x^*=0$ en una sola iteración gracias a la interpolación parabólica.
+\end{ejem}
+
+\begin{advertencia}
+    El método de Brent garantiza convergencia (por la sección áurea como respaldo) y converge superlinealmente cerca del mínimo (por la interpolación parabólica). Es uno de los métodos más confiables para optimización en una sola variable.
+\end{advertencia}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Descenso del gradiente II}
+\section{Optimización numérica con restricciones}
+
+\begin{defi}[Multiplicadores de Lagrange]
+    Para minimizar $f({x})$ sujeto a la restricción $g({x})=0$, el \textbf{método de multiplicadores de Lagrange} forma la función lagrangiana
+    \[
+        \mathcal{L}({x},\lambda)=f({x})-\lambda\,g({x}).
+    \]
+    Los puntos críticos del problema restringido satisfacen el sistema
+    \[
+        \nabla f({x}^*)=\lambda\,\nabla g({x}^*),
+        \qquad
+        g({x}^*)=0,
+    \]
+    donde el escalar $\lambda$ se denomina \textbf{multiplicador de Lagrange}.
+\end{defi}
+
+\begin{ejem}
+    Para minimizar $f(x,y)=x^2+y^2$ sujeto a $g(x,y)=x+y-1=0$, la condición $\nabla f=\lambda\,\nabla g$ da
+    \[
+        (2x,\,2y)=\lambda(1,\,1),
+    \]
+    de donde $2x=\lambda$ y $2y=\lambda$, es decir, $x=y$. Sustituyendo en la restricción $x+y=1$ se obtiene $x=y=\tfrac{1}{2}$, con valor mínimo
+    \[
+        f\!\left(\tfrac{1}{2},\tfrac{1}{2}\right)=\frac{1}{4}+\frac{1}{4}=\frac{1}{2}.
+    \]
+\end{ejem}
+
+\begin{defi}[Método de penalización]
+    El \textbf{método de penalización} convierte un problema con restricciones en una sucesión de problemas sin restricciones. Para la restricción $g({x})=0$, se minimiza la función penalizada
+    \[
+        P_\mu({x})=f({x})+\mu\,\bigl[g({x})\bigr]^2,
+    \]
+    donde $\mu>0$ es el \textbf{parámetro de penalización}. Al hacer $\mu\to\infty$, la solución de $P_\mu$ converge a la del problema restringido original.
+\end{defi}
+
+\begin{ejem}
+    Para el problema anterior, la función penalizada es
+    \[
+        P_\mu(x,y)=x^2+y^2+\mu(x+y-1)^2.
+    \]
+    Igualando las derivadas parciales a cero y explotando la simetría $x=y$ del sistema resultante, se obtiene
+    \[
+        x = y = \frac{\mu}{1+2\mu}.
+    \]
+    Para $\mu=10$ se tiene $x=y=\tfrac{10}{21}\approx 0.476$; para $\mu=100$ se tiene $x=y=\tfrac{100}{201}\approx 0.498$. Cuando $\mu\to\infty$, $x=y\to\tfrac{1}{2}$, recuperando la solución exacta.
+\end{ejem}
+
+\begin{advertencia}
+    Al aumentar $\mu$ la función $P_\mu$ se vuelve más rígida y difícil de minimizar numéricamente. Una alternativa más robusta son los métodos de \textbf{Lagrangiano aumentado}, que combinan el término de penalización con actualizaciones explícitas del multiplicador $\lambda$.
+\end{advertencia}
+
 
 \end{document}
